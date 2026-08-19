@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Wallpaper App UI Demo</title>
+    <style>
+        /* Base page styling to center the "phone" */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #000000;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: #ffffff;
+        }
+
+        /* Simulated Android Phone Screen */
+        .phone-mockup {
+            width: 360px;
+            height: 700px;
+            background-color: #121212;
+            border-radius: 32px;
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            border: 8px solid #2c2c2c;
+            display: flex;
+            flex-direction: column;
+            padding: 24px;
+            box-sizing: border-box;
+        }
+
+        /* App Content */
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-top: 40px;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        p.subtitle {
+            color: #a0a0a0;
+            text-align: center;
+            font-size: 14px;
+            margin-bottom: 40px;
+        }
+
+        .input-group {
+            margin-bottom: 24px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 14px;
+            color: #bb86fc; /* Material Dark theme accent color */
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            border: 2px solid #333333;
+            background-color: #1e1e1e;
+            color: #ffffff;
+            font-size: 16px;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            border-color: #bb86fc;
+        }
+
+        /* Buttons */
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 16px;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-secondary {
+            background-color: #333333;
+            color: #ffffff;
+        }
+
+        .btn-secondary:hover {
+            background-color: #444444;
+        }
+
+        .btn-primary {
+            background-color: #bb86fc;
+            color: #000000;
+        }
+
+        .btn-primary:hover {
+            background-color: #d0a8fd;
+        }
+
+        /* Android-style Toast Notification */
+        .toast {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #323232;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            white-space: nowrap;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="phone-mockup">
+        <h1>Web Wallpaper</h1>
+        <p class="subtitle">Configure your live background</p>
+
+        <div class="input-group">
+            <label for="urlInput">Wallpaper URL or Local Path</label>
+            <input type="text" id="urlInput" value="https://threejs.org/">
+        </div>
+
+        <button class="btn btn-secondary" onclick="saveUrl()">Save URL</button>
+        <button class="btn btn-primary" onclick="applyWallpaper()">Apply as Wallpaper</button>
+
+        <!-- Toast Notification Container -->
+        <div id="toast" class="toast">Message goes here</div>
+    </div>
+
+    <script>
+        let toastTimeout;
+
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            toast.textContent = message;
+            toast.classList.add("show");
+
+            // Clear any existing timeouts so spam-clicking doesn't break the animation
+            clearTimeout(toastTimeout);
+
+            // Hide the toast after 2.5 seconds
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove("show");
+            }, 2500);
+        }
+
+        function saveUrl() {
+            const input = document.getElementById("urlInput").value;
+            if(input.trim() === "") {
+                showToast("Please enter a valid URL!");
+            } else {
+                showToast("Wallpaper URL Saved!");
+            }
+        }
+
+        function applyWallpaper() {
+            showToast("Opening Android Wallpaper Picker...");
+        }
+    </script>
+</body>
+</html>
