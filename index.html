@@ -1,193 +1,336 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Wallpaper App UI Demo</title>
-    <style>
-        /* Base page styling to center the "phone" */
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #000000;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            color: #ffffff;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Web Wallpaper — Demo</title>
+<style>
+  :root{
+    --ink:#0a0a0a;
+    --panel:#121212;
+    --field:#1e1e1e;
+    --hair:#262626;
+    --text:#f2f2f2;
+    --dim:#8a8a8a;
+    --accent:#5c9dff;
+    --accent-dim:#274166;
+    --ok:#39d353;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{
+    height:100%;
+    background:#050505;
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    display:flex; align-items:center; justify-content:center;
+    padding:24px;
+  }
 
-        /* Simulated Android Phone Screen */
-        .phone-mockup {
-            width: 360px;
-            height: 700px;
-            background-color: #121212;
-            border-radius: 32px;
-            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
-            position: relative;
-            overflow: hidden;
-            border: 8px solid #2c2c2c;
-            display: flex;
-            flex-direction: column;
-            padding: 24px;
-            box-sizing: border-box;
-        }
+  .stage{
+    display:flex; gap:40px; flex-wrap:wrap; align-items:flex-start; justify-content:center;
+  }
 
-        /* App Content */
-                .thumbnail-container {
-                    width: 100%;
-                    height: 300px;
-                    background-color: #1e1e1e;
-                    border-radius: 16px;
-                    margin-top: 24px;
-                    margin-bottom: 24px;
-                    overflow: hidden;
-                    border: 2px solid #333333;
-                }
+  /* ---------- phone shell ---------- */
+  .phone{
+    width:300px;
+    background:#000;
+    border-radius:36px;
+    padding:10px;
+    box-shadow:0 30px 60px rgba(0,0,0,.6), inset 0 0 0 1px #1a1a1a;
+    position:relative;
+  }
+  .notch{
+    position:absolute; top:10px; left:50%; transform:translateX(-50%);
+    width:90px; height:18px; background:#000; border-radius:0 0 14px 14px; z-index:5;
+  }
+  .screen{
+    background:var(--ink);
+    border-radius:26px;
+    overflow:hidden;
+    height:620px;
+    display:flex; flex-direction:column;
+    position:relative;
+  }
+  .label{
+    text-align:center; font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--dim); margin-bottom:12px; font-weight:600;
+  }
 
-                .thumbnail-container iframe {
-                    width: 100%;
-                    height: 100%;
-                    border: none;
-                    pointer-events: none;
-                }
+  /* ---------- settings screen (MainActivity) ---------- */
+  .settings{
+    flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:28px 22px; background:var(--ink); gap:16px;
+  }
+  .settings h1{
+    font-size:19px; font-weight:700; color:var(--text); text-align:center; margin-bottom:8px;
+  }
+  .field-wrap{ width:100%; }
+  .field-wrap label{
+    display:block; font-size:11px; color:var(--dim); margin-bottom:6px; letter-spacing:.03em;
+  }
+  input[type=text]{
+    width:100%; height:46px; background:var(--field); border:1px solid var(--hair);
+    border-radius:10px; color:var(--text); padding:0 14px; font-size:13px; outline:none;
+  }
+  input[type=text]::placeholder{ color:#666; }
+  input[type=text]:focus{ border-color:var(--accent); }
 
-        .input-group {
-            margin-bottom: 24px;
-        }
+  .btn{
+    width:100%; height:46px; border-radius:10px; border:none; cursor:pointer;
+    font-size:13px; font-weight:600; letter-spacing:.02em;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    transition:filter .15s ease, transform .1s ease;
+  }
+  .btn:active{ transform:scale(.98); }
+  .btn-save{ background:var(--field); color:var(--text); border:1px solid var(--hair); }
+  .btn-save:hover{ filter:brightness(1.2); }
+  .btn-apply{ background:var(--accent); color:#04101f; }
+  .btn-apply:hover{ filter:brightness(1.08); }
+  .btn-apply:disabled{ background:#2a3a52; color:#5b6b82; cursor:not-allowed; }
 
-        .input-group label {
-            display: block;
-            font-size: 14px;
-            color: #bb86fc; /* Material Dark theme accent color */
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
+  .status-row{
+    font-size:11px; color:var(--dim); text-align:center; min-height:16px;
+  }
+  .status-row.ok{ color:var(--ok); }
 
-        input[type="text"] {
-            width: 100%;
-            padding: 16px;
-            border-radius: 12px;
-            border: 2px solid #333333;
-            background-color: #1e1e1e;
-            color: #ffffff;
-            font-size: 16px;
-            box-sizing: border-box;
-            outline: none;
-            transition: border-color 0.3s ease;
-        }
+  /* ---------- wallpaper preview screen ---------- */
+  .wallpaper-screen{
+    flex:1; position:relative; background:#000;
+  }
+  .wallpaper-screen iframe{
+    width:100%; height:100%; border:none; display:block;
+  }
+  .home-overlay{
+    position:absolute; inset:0; pointer-events:none;
+    display:flex; flex-direction:column; justify-content:space-between;
+    padding:36px 18px 20px;
+  }
+  .clock{
+    text-align:center; color:#fff; text-shadow:0 2px 12px rgba(0,0,0,.6);
+  }
+  .clock .time{ font-size:52px; font-weight:200; letter-spacing:-1px; }
+  .clock .date{ font-size:12px; opacity:.85; margin-top:2px; }
+  .dock{
+    display:flex; justify-content:space-around; align-items:center;
+    background:rgba(20,20,20,.55); backdrop-filter:blur(20px);
+    border-radius:22px; padding:12px 10px; margin:0 8px;
+  }
+  .dock-icon{
+    width:44px; height:44px; border-radius:13px;
+    background:linear-gradient(145deg,#2a2a2a,#141414);
+    display:flex; align-items:center; justify-content:center;
+    font-size:16px; color:#ddd;
+  }
+  .empty-msg{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    flex-direction:column; gap:10px; color:#555; font-size:12px; letter-spacing:.08em;
+    text-transform:uppercase; text-align:center; padding:0 30px;
+  }
 
-        input[type="text"]:focus {
-            border-color: #bb86fc;
-        }
+  /* ---------- side panel: how it maps ---------- */
+  .notes{
+    width:280px; padding-top:8px;
+  }
+  .notes h2{ font-size:15px; margin-bottom:14px; color:var(--text); }
+  .notes .row{
+    display:flex; gap:12px; padding:12px 0; border-bottom:1px solid var(--hair);
+  }
+  .notes .row:last-child{ border-bottom:none; }
+  .notes .tag{
+    flex-shrink:0; width:26px; height:26px; border-radius:8px;
+    background:var(--accent-dim); color:var(--accent);
+    display:flex; align-items:center; justify-content:center;
+    font-size:12px; font-weight:700;
+  }
+  .notes .row div p{ font-size:12.5px; color:var(--dim); line-height:1.5; }
+  .notes .row div strong{ display:block; font-size:13px; color:var(--text); margin-bottom:2px; }
+  .notes code{
+    background:var(--field); padding:1px 5px; border-radius:4px; font-size:11.5px; color:var(--accent);
+  }
+  .swap{
+    margin-top:18px; display:flex; justify-content:center;
+  }
+  .swap button{
+    background:transparent; border:1px solid var(--hair); color:var(--dim);
+    padding:8px 16px; border-radius:20px; font-size:12px; cursor:pointer;
+  }
+  .swap button:hover{ color:var(--text); border-color:var(--accent); }
 
-        /* Buttons */
-        .btn {
-            width: 100%;
-            padding: 16px;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            margin-bottom: 16px;
-            transition: background-color 0.2s, transform 0.1s;
-        }
-
-        .btn:active {
-            transform: scale(0.98);
-        }
-
-        .btn-secondary {
-            background-color: #333333;
-            color: #ffffff;
-        }
-
-        .btn-secondary:hover {
-            background-color: #444444;
-        }
-
-        .btn-primary {
-            background-color: #bb86fc;
-            color: #000000;
-        }
-
-        .btn-primary:hover {
-            background-color: #d0a8fd;
-        }
-
-        /* Android-style Toast Notification */
-        .toast {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #323232;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 50px;
-            font-size: 14px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
-            white-space: nowrap;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-        }
-
-        .toast.show {
-            opacity: 1;
-        }
-    </style>
+  @media (max-width:720px){
+    .stage{ flex-direction:column; align-items:center; }
+    .notes{ width:300px; }
+  }
+</style>
 </head>
 <body>
 
-    <div class="phone-mockup">
-            <div class="thumbnail-container">
-                <iframe id="wallpaper-thumbnail" src="https://threejs.org/"></iframe>
-            </div>
+<div class="stage">
 
-            <div class="input-group">
-            <label for="urlInput">Wallpaper URL or Local Path</label>
-            <input type="text" id="urlInput" value="https://threejs.org/">
+  <!-- SETTINGS PHONE -->
+  <div>
+    <div class="label">MainActivity</div>
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="screen">
+        <div class="settings">
+          <h1>Web Wallpaper Settings</h1>
+          <div class="field-wrap">
+            <label for="urlInput">URL or file:/// path</label>
+            <input type="text" id="urlInput" placeholder="https://example.com/scene.html">
+          </div>
+          <button class="btn btn-save" id="saveBtn">Save URL</button>
+          <button class="btn btn-apply" id="applyBtn" disabled>Apply as Wallpaper</button>
+          <div class="status-row" id="statusRow"></div>
         </div>
-
-        <button class="btn btn-secondary" onclick="saveUrl()">Save URL</button>
-        <button class="btn btn-primary" onclick="applyWallpaper()">Apply as Wallpaper</button>
-
-        <!-- Toast Notification Container -->
-        <div id="toast" class="toast">Message goes here</div>
+      </div>
     </div>
+  </div>
 
-    <script>
-        let toastTimeout;
+  <!-- WALLPAPER PHONE -->
+  <div>
+    <div class="label">WebWallpaperService</div>
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="screen">
+        <div class="wallpaper-screen">
+          <div class="empty-msg" id="emptyMsg">No wallpaper set<br>yet<br><span style="opacity:.6">save a URL on the left, then Apply</span></div>
+          <iframe id="wallpaperFrame" style="display:none;" sandbox="allow-scripts allow-same-origin"></iframe>
+          <div class="home-overlay">
+            <div class="clock">
+              <div class="time" id="clockTime">--:--</div>
+              <div class="date" id="clockDate">—</div>
+            </div>
+            <div class="dock">
+              <div class="dock-icon">✆</div>
+              <div class="dock-icon">✉</div>
+              <div class="dock-icon">◧</div>
+              <div class="dock-icon">⚙</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-        function showToast(message) {
-            const toast = document.getElementById("toast");
-            toast.textContent = message;
-            toast.classList.add("show");
+  <!-- NOTES -->
+  <div class="notes">
+    <h2>How this maps to your APK</h2>
+    <div class="row">
+      <div class="tag">1</div>
+      <div>
+        <strong>Settings screen</strong>
+        <p>Mirrors <code>activity_main.xml</code> — <code>url_input</code> and <code>btn_save</code> exactly as declared in your layout.</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="tag">2</div>
+      <div>
+        <strong>Apply as Wallpaper</strong>
+        <p>On device this launches the system's <code>ACTION_CHANGE_LIVE_WALLPAPER</code> intent, pointing at your <code>WebWallpaperService</code> from the manifest.</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="tag">3</div>
+      <div>
+        <strong>Wallpaper render</strong>
+        <p>The right phone simulates the hardware-accelerated <code>WebView</code> your service draws behind the home screen icons and clock.</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="tag">!</div>
+      <div>
+        <strong>Browser limits</strong>
+        <p>This is an approximation — real device WebViews allow broader permissions (camera, sensors, local files) that a sandboxed iframe here cannot.</p>
+      </div>
+    </div>
+    <div class="swap">
+      <button id="demoBtn">Try a sample scene</button>
+    </div>
+  </div>
 
-            // Clear any existing timeouts so spam-clicking doesn't break the animation
-            clearTimeout(toastTimeout);
+</div>
 
-            // Hide the toast after 2.5 seconds
-            toastTimeout = setTimeout(() => {
-                toast.classList.remove("show");
-            }, 2500);
-        }
+<script>
+  const urlInput   = document.getElementById('urlInput');
+  const saveBtn    = document.getElementById('saveBtn');
+  const applyBtn   = document.getElementById('applyBtn');
+  const statusRow  = document.getElementById('statusRow');
+  const frame      = document.getElementById('wallpaperFrame');
+  const emptyMsg   = document.getElementById('emptyMsg');
+  const demoBtn    = document.getElementById('demoBtn');
 
-        function saveUrl() {
-                    const input = document.getElementById("urlInput").value;
-                    if(input.trim() === "") {
-                        showToast("Please enter a valid URL!");
-                    } else {
-                        document.getElementById("wallpaper-thumbnail").src = input;
-                        showToast("Wallpaper URL Saved!");
-                    }
-                }
+  let savedUrl = '';
 
-        function applyWallpaper() {
-            showToast("Opening Android Wallpaper Picker...");
-        }
-    </script>
+  saveBtn.addEventListener('click', () => {
+    const val = urlInput.value.trim();
+    if (!val) {
+      statusRow.textContent = 'Enter a URL first';
+      statusRow.className = 'status-row';
+      return;
+    }
+    savedUrl = val;
+    statusRow.textContent = 'Saved';
+    statusRow.className = 'status-row ok';
+    applyBtn.disabled = false;
+  });
+
+  applyBtn.addEventListener('click', () => {
+    if (!savedUrl) return;
+    frame.src = savedUrl;
+    frame.style.display = 'block';
+    emptyMsg.style.display = 'none';
+    statusRow.textContent = 'Applied as wallpaper';
+    statusRow.className = 'status-row ok';
+  });
+
+  demoBtn.addEventListener('click', () => {
+    const sample = 'https://example.com';
+    urlInput.value = sample;
+    savedUrl = sample;
+    applyBtn.disabled = false;
+    frame.srcdoc = `
+      <html style="height:100%;margin:0;">
+      <body style="height:100%;margin:0;overflow:hidden;background:radial-gradient(circle at 30% 20%, #1a2a4a, #050510 70%);display:flex;align-items:center;justify-content:center;">
+        <canvas id="c" style="width:100%;height:100%;"></canvas>
+        <script>
+          const c = document.getElementById('c');
+          const ctx = c.getContext('2d');
+          function resize(){ c.width = innerWidth; c.height = innerHeight; }
+          resize(); addEventListener('resize', resize);
+          const stars = Array.from({length:120}, () => ({
+            x: Math.random()*c.width, y: Math.random()*c.height,
+            r: Math.random()*1.6+.2, s: Math.random()*.5+.1
+          }));
+          function tick(t){
+            ctx.clearRect(0,0,c.width,c.height);
+            for(const st of stars){
+              const alpha = .4 + .6*Math.sin(t/900*st.s + st.x);
+              ctx.fillStyle = 'rgba(255,255,255,'+Math.max(0,alpha)+')';
+              ctx.beginPath(); ctx.arc(st.x, st.y, st.r, 0, 7); ctx.fill();
+            }
+            requestAnimationFrame(tick);
+          }
+          requestAnimationFrame(tick);
+        <\/script>
+      </body>
+      </html>
+    `;
+    frame.style.display = 'block';
+    emptyMsg.style.display = 'none';
+    statusRow.textContent = 'Applied sample scene';
+    statusRow.className = 'status-row ok';
+  });
+
+  function updateClock(){
+    const now = new Date();
+    document.getElementById('clockTime').textContent =
+      now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+    document.getElementById('clockDate').textContent =
+      now.toLocaleDateString([], {weekday:'long', month:'long', day:'numeric'});
+  }
+  updateClock();
+  setInterval(updateClock, 1000 * 30);
+</script>
+
 </body>
 </html>
