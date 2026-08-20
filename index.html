@@ -286,15 +286,23 @@
                                                                                   <button class="btn" id="historyBtn" style="width:44px; flex:none;" title="History">
                                                                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px; height:14px;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                                                                                   </button>
-                                                                                  <div class="btn" style="width:72px; flex:none; padding:0 8px; justify-content:space-between; cursor:default; transform:none !important;">
-                                                                                    <button id="zoomBtn" style="background:none; border:none; color:var(--accent); display:flex; align-items:center; cursor:pointer; outline:none; transition:color 0.2s ease; padding:0; margin:0;" title="Zoom">
-                                                                                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px; height:14px;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                                                                                    </button>
-                                                                                    <div style="display:flex; align-items:center;">
-                                                                                      <input type="text" inputmode="decimal" id="zoomInput" value="1" style="width:24px; height:24px; background:transparent !important; border:none; color:var(--text); font-size:10px; font-weight:700; text-align:right; outline:none !important; box-shadow:none !important; padding:0; cursor:text;">
-                                                                                      <span style="color:var(--dim); font-size:10px; font-weight:700; margin-left:1px;">x</span>
-                                                                                    </div>
-                                                                                  </div>
+                                                                                  <div style="position:relative; display:flex;">
+                                                                                                                                                                      <button class="btn" id="zoomBtn" style="width:44px; flex:none;" title="Zoom">
+                                                                                                                                                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px; height:14px;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                                                                                                                                                                      </button>
+                                                                                                                                                                      <div id="zoomPopup" style="display:none; position:absolute; bottom:115%; left:50%; transform:translateX(-50%); background:var(--panel); padding:8px; border-radius:12px; box-shadow:0 10px 20px rgba(0,0,0,0.5), inset 0 0 0 1px var(--hair); z-index:20; flex-direction:column; gap:8px; align-items:center;">
+                                                                                                                                                                        <div style="display:flex; gap:4px;">
+                                                                                                                                                                          <button class="btn zoom-preset" style="width:32px; height:22px; font-size:9px;" data-val="0.5">.5x</button>
+                                                                                                                                                                          <button class="btn zoom-preset" style="width:32px; height:22px; font-size:9px;" data-val="1">1x</button>
+                                                                                                                                                                          <button class="btn zoom-preset" style="width:32px; height:22px; font-size:9px;" data-val="2">2x</button>
+                                                                                                                                                                        </div>
+                                                                                                                                                                        <div style="display:flex; align-items:center; background:var(--ink); border-radius:8px; padding:2px 8px; box-shadow:inset 2px 2px 4px var(--shadow-dark), inset -2px -2px 4px var(--shadow-light);">
+                                                                                                                                                                          <input type="text" inputmode="decimal" id="zoomInput" value="1" style="width:28px; height:20px; background:transparent !important; border:none; color:var(--text); font-size:10px; font-weight:700; text-align:center; outline:none !important; box-shadow:none !important; padding:0;">
+                                                                                                                                                                          <span style="color:var(--dim); font-size:9px; font-weight:700;">x</span>
+                                                                                                                                                                        </div>
+                                                                                                                                                                      </div>
+                                                                                                                                                                    </div>
+                                                                                                                                                                    </div>
                                                                                 </div>
                                                                                 </div>
                                                                                 </div>
@@ -509,20 +517,33 @@
                                                                   });
                                                                 }
 
-                                zoomBtn.addEventListener('click', () => {
-                                  let idx = zoomLevels.indexOf(currentZoom);
-                                  idx = (idx + 1) % zoomLevels.length;
-                                  const newZoom = zoomLevels[idx];
-                                  zoomInput.value = newZoom;
-                                  applyZoom(newZoom);
-                                });
+                                const zoomPopup = document.getElementById('zoomPopup');
+                                                                zoomBtn.addEventListener('click', (e) => {
+                                                                  e.stopPropagation();
+                                                                  zoomPopup.style.display = zoomPopup.style.display === 'none' ? 'flex' : 'none';
+                                                                });
+
+                                                                document.querySelectorAll('.zoom-preset').forEach(btn => {
+                                                                  btn.addEventListener('click', (e) => {
+                                                                    const val = parseFloat(e.target.getAttribute('data-val'));
+                                                                    zoomInput.value = val;
+                                                                    applyZoom(val);
+                                                                    zoomPopup.style.display = 'none';
+                                                                  });
+                                                                });
                 
-                                zoomInput.addEventListener('input', () => {
-                                  const val = parseFloat(zoomInput.value);
-                                  if (!isNaN(val) && val > 0) {
-                                    applyZoom(val);
-                                  }
-                                });
+                                                                zoomInput.addEventListener('input', () => {
+                                                                  const val = parseFloat(zoomInput.value);
+                                                                  if (!isNaN(val) && val > 0) {
+                                                                    applyZoom(val);
+                                                                  }
+                                                                });
+
+                                                                document.addEventListener('click', (e) => {
+                                                                  if (zoomPopup && zoomPopup.style.display === 'flex' && !zoomPopup.contains(e.target)) {
+                                                                    zoomPopup.style.display = 'none';
+                                                                  }
+                                                                });
                         let historyList = [];
     let savedType = 'web';
     let currentType = 'web';
