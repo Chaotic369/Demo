@@ -97,6 +97,25 @@
     .btn-apply:hover{ filter:brightness(1.1); box-shadow:none; }
     .btn-apply:disabled{ background:var(--field); color:#475569; cursor:not-allowed; }
 
+        .segment-control {
+          display:flex; width:100%; background:var(--field); border-radius:8px; padding:3px; gap:2px;
+        }
+        .seg-btn {
+          flex:1; background:transparent; border:none; color:var(--dim); height:26px; border-radius:6px;
+          font-size:10px; font-weight:600; cursor:pointer; text-transform:uppercase; transition:all .2s ease;
+        }
+        .seg-btn.active {
+          background:var(--hair); color:var(--text); box-shadow:0 1px 4px rgba(0,0,0,.4);
+        }
+        .file-drop {
+          display:flex; flex-direction:column; align-items:center; justify-content:center;
+          width:100%; height:56px; background:var(--field); border:1px dashed #333;
+          border-radius:8px; color:var(--dim); cursor:pointer; gap:6px; transition:all .2s ease;
+        }
+        .file-drop:hover { border-color:var(--accent); color:var(--accent); background:#151820; }
+        .file-drop svg { width:18px; height:18px; }
+        .file-drop span { font-size:10px; font-weight:500; overflow:hidden; text-overflow:ellipsis; max-width:90%; white-space:nowrap; }
+
   .status-row{
     font-size:11px; color:var(--dim); text-align:center; min-height:16px; font-weight:500;
   }
@@ -192,23 +211,22 @@
                     <span id="miniLabel" style="font-size:9px; color:#555; font-weight:700;">PREVIEW</span>
                   </div>
 
-          <div class="field-wrap">
-            <label for="typeSelect">Type</label>
-            <select id="typeSelect">
-              <option value="web">Web</option>
-              <option value="video">Video</option>
-            </select>
-          </div>
+          <div class="segment-control">
+                      <button class="seg-btn active" id="btnTypeWeb">Web</button>
+                      <button class="seg-btn" id="btnTypeVideo">Video</button>
+                    </div>
 
-          <div class="field-wrap" id="urlWrap">
-            <label for="urlInput">URL</label>
-            <input type="text" id="urlInput" placeholder="https://example.com/scene.html">
-          </div>
+                    <div class="field-wrap" id="urlWrap">
+                      <input type="text" id="urlInput" placeholder="URL or file:/// path">
+                    </div>
           
-          <div class="field-wrap" id="fileWrap" style="display:none;">
-            <label for="fileInput">Local Video</label>
-            <input type="file" id="fileInput" accept="video/*">
-          </div>
+                    <div class="field-wrap" id="fileWrap" style="display:none;">
+                      <label class="file-drop">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                        <span id="fileNameDisplay">Choose Video File</span>
+                        <input type="file" id="fileInput" accept="video/*" style="display:none;">
+                      </label>
+                    </div>
           
           <button class="btn btn-save" id="saveBtn">Save</button>
           <button class="btn btn-apply" id="applyBtn" disabled>Apply as Wallpaper</button>
@@ -291,31 +309,48 @@
   const frame      = document.getElementById('wallpaperFrame');
   const emptyMsg   = document.getElementById('emptyMsg');
   const demoBtn    = document.getElementById('demoBtn');
-  const typeSelect = document.getElementById('typeSelect');
-  const miniFrame  = document.getElementById('miniFrame');
-  const miniVideo  = document.getElementById('miniVideo');
-  const miniLabel  = document.getElementById('miniLabel');
-  const wallpaperVideo = document.getElementById('wallpaperVideo');
-  const urlWrap    = document.getElementById('urlWrap');
-  const fileWrap   = document.getElementById('fileWrap');
-  const fileInput  = document.getElementById('fileInput');
+    const btnTypeWeb = document.getElementById('btnTypeWeb');
+    const btnTypeVideo = document.getElementById('btnTypeVideo');
+    const miniFrame  = document.getElementById('miniFrame');
+    const miniVideo  = document.getElementById('miniVideo');
+    const miniLabel  = document.getElementById('miniLabel');
+    const wallpaperVideo = document.getElementById('wallpaperVideo');
+    const urlWrap    = document.getElementById('urlWrap');
+    const fileWrap   = document.getElementById('fileWrap');
+    const fileInput  = document.getElementById('fileInput');
+    const fileNameDisplay = document.getElementById('fileNameDisplay');
 
-  let savedUrl = '';
-  let savedType = 'web';
+    let savedUrl = '';
+    let savedType = 'web';
+    let currentType = 'web';
 
-  typeSelect.addEventListener('change', () => {
-    if (typeSelect.value === 'web') {
+    btnTypeWeb.addEventListener('click', () => {
+      currentType = 'web';
+      btnTypeWeb.classList.add('active');
+      btnTypeVideo.classList.remove('active');
       urlWrap.style.display = 'block';
       fileWrap.style.display = 'none';
-    } else {
+    });
+
+    btnTypeVideo.addEventListener('click', () => {
+      currentType = 'video';
+      btnTypeVideo.classList.add('active');
+      btnTypeWeb.classList.remove('active');
       urlWrap.style.display = 'none';
       fileWrap.style.display = 'block';
-    }
-  });
+    });
 
-  saveBtn.addEventListener('click', () => {
-    if (typeSelect.value === 'web') {
-      const val = urlInput.value.trim();
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files.length > 0) {
+        fileNameDisplay.textContent = fileInput.files[0].name;
+      } else {
+        fileNameDisplay.textContent = 'Choose Video File';
+      }
+    });
+
+    saveBtn.addEventListener('click', () => {
+      if (currentType === 'web') {
+        const val = urlInput.value.trim();
       if (!val) {
         statusRow.textContent = 'Enter a URL first';
         statusRow.className = 'status-row';
@@ -330,14 +365,14 @@
         return;
       }
       if (savedUrl && savedUrl.startsWith('blob:')) {
-        URL.revokeObjectURL(savedUrl);
-      }
-      savedUrl = URL.createObjectURL(file);
-    }
+              URL.revokeObjectURL(savedUrl);
+            }
+            savedUrl = URL.createObjectURL(file);
+          }
 
-    savedType = typeSelect.value;
+          savedType = currentType;
     
-    miniFrame.style.display = 'none';
+          miniFrame.style.display = 'none';
     miniVideo.style.display = 'none';
     miniLabel.style.display = 'none';
     miniFrame.src = '';
@@ -376,14 +411,16 @@
   });
 
   demoBtn.addEventListener('click', () => {
-    const sample = 'https://example.com';
-    urlInput.value = sample;
-    savedUrl = sample;
-    savedType = 'web';
-    typeSelect.value = 'web';
-    urlWrap.style.display = 'block';
-    fileWrap.style.display = 'none';
-    applyBtn.disabled = false;
+      const sample = 'https://example.com';
+      urlInput.value = sample;
+      savedUrl = sample;
+      savedType = 'web';
+      currentType = 'web';
+      btnTypeWeb.classList.add('active');
+      btnTypeVideo.classList.remove('active');
+      urlWrap.style.display = 'block';
+      fileWrap.style.display = 'none';
+      applyBtn.disabled = false;
     
     miniFrame.style.display = 'block';
     miniVideo.style.display = 'none';
