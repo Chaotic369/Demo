@@ -35,21 +35,21 @@
     }
 
   /* ---------- phone shell ---------- */
-  .phone{
-    width:260px;
-    background:#000;
-    border-radius:36px;
-    padding:10px;
-    box-shadow:0 40px 80px -20px rgba(0,0,0,0.8), inset 0 0 0 2px #2a2d35;
-    position:relative;
-  }
-  .notch{
-    position:absolute; top:10px; left:50%; transform:translateX(-50%);
-    width:90px; height:20px; background:#000; border-radius:0 0 12px 12px; z-index:5;
-  }
-  .screen{
-    background:var(--ink);
-    border-radius:26px;
+    .phone{
+      width:260px;
+      background:#000;
+      border-radius:48px;
+      padding:10px;
+      box-shadow:0 40px 80px -20px rgba(0,0,0,0.8), inset 0 0 0 2px #2a2d35;
+      position:relative;
+    }
+    .notch{
+      position:absolute; top:10px; left:50%; transform:translateX(-50%);
+      width:90px; height:20px; background:#000; border-radius:0 0 16px 16px; z-index:5;
+    }
+    .screen{
+      background:var(--ink);
+      border-radius:38px;
     overflow:hidden;
     height:540px;
     display:flex; flex-direction:column;
@@ -70,17 +70,17 @@
           display:block; font-size:10px; color:var(--dim); margin-bottom:4px; font-weight:500;
         }
         input[type=text], select{
-          width:100%; height:28px; background:var(--field); border:none;
-          border-radius:6px; color:var(--text); padding:0 10px; font-size:10px; outline:none !important;
-          box-shadow:none !important;
-          transition:background .2s ease;
-        }
-        input[type=text]::placeholder{ color:#64748b; }
-    input[type=text]:focus, select:focus{ outline:none !important; background:#181818; }
-    select{ cursor:pointer; outline:none !important; }
+                  width:100%; height:28px; background:var(--field); border:none;
+                  border-radius:12px; color:var(--text); padding:0 10px; font-size:10px; outline:none !important;
+                  box-shadow:none !important;
+                  transition:background .2s ease;
+                }
+                input[type=text]::placeholder{ color:#64748b; }
+            input[type=text]:focus, select:focus{ outline:none !important; background:#181818; }
+            select{ cursor:pointer; outline:none !important; }
 
-    .btn{
-      width:100%; height:28px; border-radius:6px; border:none; cursor:pointer;
+            .btn{
+              width:100%; height:28px; border-radius:12px; border:none; cursor:pointer;
       font-size:10px; font-weight:600; letter-spacing:.02em; text-transform:uppercase;
       display:flex; align-items:center; justify-content:center; gap:4px;
       transition:all .1s ease;
@@ -94,10 +94,10 @@
     .btn-apply:disabled{ background:var(--field); color:#475569; cursor:not-allowed; }
 
         .segment-control {
-          display:flex; width:100%; background:var(--field); border-radius:8px; padding:3px; gap:2px;
-        }
-        .seg-btn {
-          flex:1; background:transparent; border:none; color:var(--dim); height:26px; border-radius:6px;
+                  display:flex; width:100%; background:var(--field); border-radius:16px; padding:3px; gap:2px;
+                }
+                .seg-btn {
+                  flex:1; background:transparent; border:none; color:var(--dim); height:26px; border-radius:12px;
           font-size:10px; font-weight:600; cursor:pointer; text-transform:uppercase; transition:all .2s ease;
         }
         .seg-btn.active {
@@ -127,18 +127,18 @@
   .clock .time{ font-size:48px; font-weight:200; letter-spacing:-1px; line-height:1; }
   .clock .date{ font-size:12px; font-weight:500; opacity:.9; margin-top:6px; }
   .dock{
-    display:flex; justify-content:space-around; align-items:center;
-    background:rgba(255,255,255,.1); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
-    border-radius:22px; padding:12px; margin:0 4px;
-    box-shadow:0 8px 24px rgba(0,0,0,.2), inset 0 0 0 1px rgba(255,255,255,.1);
-  }
-  .dock-icon{
-    width:38px; height:38px; border-radius:10px;
-    background:linear-gradient(135deg, rgba(255,255,255,.2), rgba(255,255,255,.05));
-    display:flex; align-items:center; justify-content:center;
-    font-size:16px; color:#fff;
-    box-shadow:inset 0 1px 1px rgba(255,255,255,.3);
-  }
+      display:flex; justify-content:space-around; align-items:center;
+      background:rgba(255,255,255,.1); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+      border-radius:32px; padding:12px; margin:0 4px;
+      box-shadow:0 8px 24px rgba(0,0,0,.2), inset 0 0 0 1px rgba(255,255,255,.1);
+    }
+    .dock-icon{
+      width:38px; height:38px; border-radius:16px;
+      background:linear-gradient(135deg, rgba(255,255,255,.2), rgba(255,255,255,.05));
+      display:flex; align-items:center; justify-content:center;
+      font-size:16px; color:#fff;
+      box-shadow:inset 0 1px 1px rgba(255,255,255,.3);
+    }
   .empty-msg{
     position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
     flex-direction:column; gap:10px; color:#64748b; font-size:11px; letter-spacing:.05em;
@@ -155,42 +155,42 @@
   }
   .notes .row:last-child{ border-bottom:none; }
   .notes .tag{
-    flex-shrink:0; width:24px; height:24px; border-radius:6px;
-    background:rgba(59,130,246,.15); color:var(--accent);
-    display:flex; align-items:center; justify-content:center;
-    font-size:11px; font-weight:700;
-  }
-  .notes .row div p{ font-size:11.5px; color:var(--dim); line-height:1.5; }
-  .notes .row div strong{ display:block; font-size:12.5px; color:var(--text); margin-bottom:4px; font-weight:600; }
-  .notes code{
-    background:var(--field); padding:2px 4px; border-radius:4px; font-size:11px; color:var(--accent); border:1px solid var(--hair);
-  }
+      flex-shrink:0; width:24px; height:24px; border-radius:12px;
+      background:rgba(59,130,246,.15); color:var(--accent);
+      display:flex; align-items:center; justify-content:center;
+      font-size:11px; font-weight:700;
+    }
+    .notes .row div p{ font-size:11.5px; color:var(--dim); line-height:1.5; }
+    .notes .row div strong{ display:block; font-size:12.5px; color:var(--text); margin-bottom:4px; font-weight:600; }
+    .notes code{
+      background:var(--field); padding:2px 4px; border-radius:8px; font-size:11px; color:var(--accent); border:1px solid var(--hair);
+    }
   .swap{
     margin-top:20px; display:flex; justify-content:center;
   }
   .swap button{
-      background:var(--field); border:none; color:var(--text); outline:none;
-      padding:8px 16px; border-radius:20px; font-size:11px; cursor:pointer; font-weight:500;
+        background:var(--field); border:none; color:var(--text); outline:none;
+        padding:8px 16px; border-radius:32px; font-size:11px; cursor:pointer; font-weight:500;
       transition:all .2s ease;
     }
     .swap button:hover{ background:var(--hair); }
 
         /* History Grid */
-        .history-item {
-          aspect-ratio: 9/16; background: var(--field); border-radius: 6px;
-          overflow: hidden; position: relative; cursor: pointer; border: 1px solid var(--hair);
-          transition: border-color .2s ease;
-        }
-        .history-item:hover { border-color: var(--accent); }
-        .history-item iframe, .history-item video {
-          width: 100%; height: 100%; pointer-events: none; object-fit: cover; border: none;
-        }
-        .history-item iframe {
-          width: 400%; height: 400%; transform: scale(0.25); transform-origin: top left;
-        }
-        .history-type {
-          position: absolute; bottom: 4px; left: 4px; background: rgba(0,0,0,0.8);
-          color: #fff; font-size: 8px; padding: 2px 4px; border-radius: 4px;
+                .history-item {
+                  aspect-ratio: 9/16; background: var(--field); border-radius: 16px;
+                  overflow: hidden; position: relative; cursor: pointer; border: 1px solid var(--hair);
+                  transition: border-color .2s ease;
+                }
+                .history-item:hover { border-color: var(--accent); }
+                .history-item iframe, .history-item video {
+                  width: 100%; height: 100%; pointer-events: none; object-fit: cover; border: none;
+                }
+                .history-item iframe {
+                  width: 400%; height: 400%; transform: scale(0.25); transform-origin: top left;
+                }
+                .history-type {
+                  position: absolute; bottom: 4px; left: 4px; background: rgba(0,0,0,0.8);
+                  color: #fff; font-size: 8px; padding: 2px 4px; border-radius: 8px;
           font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
         }
 
@@ -212,7 +212,7 @@
         <div class="screen">
           <div class="settings" id="mainSettings" style="padding-top:12px;">
           
-                  <div style="width: 100px; height: 200px; background: #000; border-radius: 18px; border: none; margin: 0 auto; overflow: hidden; position: relative; display: flex; justify-content: center; align-items: center;">
+                  <div style="width: 100px; height: 200px; background: #000; border-radius: 24px; border: none; margin: 0 auto; overflow: hidden; position: relative; display: flex; justify-content: center; align-items: center;">
                     <iframe id="miniFrame" style="width:100%; height:100%; border:none; display:none;" sandbox="allow-scripts allow-same-origin"></iframe>
                     <video id="miniVideo" style="width:100%; height:100%; object-fit:cover; display:none;" autoplay loop muted playsinline></video>
                     <span id="miniLabel" style="font-size:9px; color:#555; font-weight:700;">PREVIEW</span>
