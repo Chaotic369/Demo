@@ -238,8 +238,15 @@
           
           <button class="btn btn-save" id="saveBtn">Save</button>
                     <button class="btn btn-apply" id="applyBtn" disabled>Apply as Wallpaper</button>
-                    <button class="btn" id="historyBtn" style="background:transparent; border:1px solid var(--hair); color:var(--dim); margin-top:4px;">Saved Assets</button>
-                    <div class="status-row" id="statusRow"></div>
+                                        <div style="display:flex; gap:8px; width:100%; margin-top:4px;">
+                                                                                  <button class="btn" id="historyBtn" style="background:transparent; border:1px solid var(--hair); color:var(--dim); flex:1;">Saved Assets</button>
+                                                                                  <div style="display:flex; align-items:center; background:transparent; border:1px solid var(--hair); border-radius:12px; padding:0 8px; flex:1;">
+                                                                                    <button id="zoomBtn" style="background:none; border:none; color:var(--dim); font-size:10px; font-weight:600; cursor:pointer; text-transform:uppercase; outline:none; flex:1; text-align:left;">Zoom:</button>
+                                                                                    <input type="number" id="zoomInput" value="1" step="0.1" min="0.1" style="width:40px; height:28px; background:transparent; border:none; color:var(--text); font-size:10px; font-weight:600; text-align:right; outline:none !important; box-shadow:none !important; padding:0;">
+                                                                                    <span style="color:var(--dim); font-size:10px; font-weight:600; margin-left:2px;">x</span>
+                                                                                  </div>
+                                                                                </div>
+                                        <div class="status-row" id="statusRow"></div>
                   </div>
         
                   <div id="historyView" style="display:none; flex-direction:column; background:var(--ink); height:100%; padding:16px;">
@@ -343,11 +350,42 @@
         const mainSettings = document.getElementById('mainSettings');
         const historyView = document.getElementById('historyView');
         const historyBtn = document.getElementById('historyBtn');
-        const backBtn = document.getElementById('backBtn');
-        const historyGrid = document.getElementById('historyGrid');
+                        const zoomBtn = document.getElementById('zoomBtn');
+                        const zoomInput = document.getElementById('zoomInput');
+                        const backBtn = document.getElementById('backBtn');
+                const historyGrid = document.getElementById('historyGrid');
 
-        let savedUrl = '';
-        let historyList = [];
+                let savedUrl = '';
+                                let currentZoom = 1;
+                                const zoomLevels = [0.5, 0.75, 1, 1.25, 1.5, 2];
+
+                                function applyZoom(val) {
+                                  currentZoom = val;
+                                  const size = (100 / currentZoom) + '%';
+                                  const scale = `scale(${currentZoom})`;
+                                  [miniFrame, frame].forEach(f => {
+                                    f.style.width = size;
+                                    f.style.height = size;
+                                    f.style.transform = scale;
+                                    f.style.transformOrigin = 'top left';
+                                  });
+                                }
+
+                                zoomBtn.addEventListener('click', () => {
+                                  let idx = zoomLevels.indexOf(currentZoom);
+                                  idx = (idx + 1) % zoomLevels.length;
+                                  const newZoom = zoomLevels[idx];
+                                  zoomInput.value = newZoom;
+                                  applyZoom(newZoom);
+                                });
+                
+                                zoomInput.addEventListener('input', () => {
+                                  const val = parseFloat(zoomInput.value);
+                                  if (!isNaN(val) && val > 0) {
+                                    applyZoom(val);
+                                  }
+                                });
+                        let historyList = [];
     let savedType = 'web';
     let currentType = 'web';
 
