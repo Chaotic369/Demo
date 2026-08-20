@@ -200,9 +200,10 @@
                   </div>
 
           <div class="segment-control">
-                      <button class="seg-btn active" id="btnTypeWeb">Web</button>
-                      <button class="seg-btn" id="btnTypeVideo">Video</button>
-                    </div>
+                                <button class="seg-btn active" id="btnTypeWeb">Web</button>
+                                <button class="seg-btn" id="btnTypeVideo">Video</button>
+                                <button class="seg-btn" id="btnTypeHtml">HTML</button>
+                              </div>
 
                     <div class="field-wrap" id="urlWrap">
                       <input type="text" id="urlInput" placeholder="URL or file:/// path">
@@ -298,8 +299,9 @@
   const emptyMsg   = document.getElementById('emptyMsg');
   const demoBtn    = document.getElementById('demoBtn');
     const btnTypeWeb = document.getElementById('btnTypeWeb');
-    const btnTypeVideo = document.getElementById('btnTypeVideo');
-    const miniFrame  = document.getElementById('miniFrame');
+        const btnTypeVideo = document.getElementById('btnTypeVideo');
+        const btnTypeHtml = document.getElementById('btnTypeHtml');
+        const miniFrame  = document.getElementById('miniFrame');
     const miniVideo  = document.getElementById('miniVideo');
     const miniLabel  = document.getElementById('miniLabel');
     const wallpaperVideo = document.getElementById('wallpaperVideo');
@@ -313,28 +315,45 @@
     let currentType = 'web';
 
     btnTypeWeb.addEventListener('click', () => {
-      currentType = 'web';
-      btnTypeWeb.classList.add('active');
-      btnTypeVideo.classList.remove('active');
-      urlWrap.style.display = 'block';
-      fileWrap.style.display = 'none';
-    });
+          currentType = 'web';
+          btnTypeWeb.classList.add('active');
+          btnTypeVideo.classList.remove('active');
+          btnTypeHtml.classList.remove('active');
+          urlWrap.style.display = 'block';
+          fileWrap.style.display = 'none';
+        });
 
-    btnTypeVideo.addEventListener('click', () => {
-      currentType = 'video';
-      btnTypeVideo.classList.add('active');
-      btnTypeWeb.classList.remove('active');
-      urlWrap.style.display = 'none';
-      fileWrap.style.display = 'block';
-    });
-
-    fileInput.addEventListener('change', () => {
-        if (fileInput.files.length > 0) {
-          fileNameDisplay.textContent = fileInput.files[0].name;
-        } else {
+        btnTypeVideo.addEventListener('click', () => {
+          currentType = 'video';
+          btnTypeVideo.classList.add('active');
+          btnTypeWeb.classList.remove('active');
+          btnTypeHtml.classList.remove('active');
+          urlWrap.style.display = 'none';
+          fileWrap.style.display = 'block';
+          fileInput.accept = 'video/*';
+          fileInput.value = '';
           fileNameDisplay.textContent = 'Upload Video';
-        }
-      });
+        });
+
+        btnTypeHtml.addEventListener('click', () => {
+          currentType = 'html';
+          btnTypeHtml.classList.add('active');
+          btnTypeWeb.classList.remove('active');
+          btnTypeVideo.classList.remove('active');
+          urlWrap.style.display = 'none';
+          fileWrap.style.display = 'block';
+          fileInput.accept = '.html,text/html';
+          fileInput.value = '';
+          fileNameDisplay.textContent = 'Upload HTML';
+        });
+
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) {
+              fileNameDisplay.textContent = fileInput.files[0].name;
+            } else {
+              fileNameDisplay.textContent = currentType === 'html' ? 'Upload HTML' : 'Upload Video';
+            }
+          });
 
     saveBtn.addEventListener('click', () => {
       if (currentType === 'web') {
@@ -348,10 +367,10 @@
     } else {
       const file = fileInput.files[0];
       if (!file) {
-        statusRow.textContent = 'Select a video first';
-        statusRow.className = 'status-row';
-        return;
-      }
+              statusRow.textContent = `Select a ${currentType} file first`;
+              statusRow.className = 'status-row';
+              return;
+            }
       if (savedUrl && savedUrl.startsWith('blob:')) {
               URL.revokeObjectURL(savedUrl);
             }
@@ -366,13 +385,13 @@
     miniFrame.src = '';
     miniVideo.src = '';
     
-    if (savedType === 'web') {
-      miniFrame.src = savedUrl;
-      miniFrame.style.display = 'block';
-    } else {
-      miniVideo.src = savedUrl;
-      miniVideo.style.display = 'block';
-    }
+    if (savedType === 'web' || savedType === 'html') {
+          miniFrame.src = savedUrl;
+          miniFrame.style.display = 'block';
+        } else {
+          miniVideo.src = savedUrl;
+          miniVideo.style.display = 'block';
+        }
 
     statusRow.textContent = 'Saved';
     statusRow.className = 'status-row ok';
@@ -386,13 +405,13 @@
     frame.src = '';
     wallpaperVideo.src = '';
     
-    if (savedType === 'web') {
-      frame.src = savedUrl;
-      frame.style.display = 'block';
-    } else {
-      wallpaperVideo.src = savedUrl;
-      wallpaperVideo.style.display = 'block';
-    }
+    if (savedType === 'web' || savedType === 'html') {
+          frame.src = savedUrl;
+          frame.style.display = 'block';
+        } else {
+          wallpaperVideo.src = savedUrl;
+          wallpaperVideo.style.display = 'block';
+        }
     emptyMsg.style.display = 'none';
     statusRow.textContent = 'Applied as wallpaper';
     statusRow.className = 'status-row ok';
@@ -404,9 +423,10 @@
       savedUrl = sample;
       savedType = 'web';
       currentType = 'web';
-      btnTypeWeb.classList.add('active');
-      btnTypeVideo.classList.remove('active');
-      urlWrap.style.display = 'block';
+            btnTypeWeb.classList.add('active');
+            btnTypeVideo.classList.remove('active');
+            btnTypeHtml.classList.remove('active');
+            urlWrap.style.display = 'block';
       fileWrap.style.display = 'none';
       applyBtn.disabled = false;
     
