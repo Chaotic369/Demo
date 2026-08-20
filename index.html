@@ -64,11 +64,13 @@
   }
 
   /* ---------- settings screen (MainActivity) ---------- */
-    .settings{
-        flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
-        padding:20px 16px; background:var(--ink); gap:10px;
-      }
-      .field-wrap{ width:100%; }
+      .settings{
+          flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-start;
+          padding:20px 16px 24px; background:var(--ink); gap:10px; overflow-y:auto;
+        }
+        .settings::-webkit-scrollbar { width: 4px; }
+        .settings::-webkit-scrollbar-thumb { background: var(--hair); border-radius: 4px; }
+        .field-wrap{ width:100%; }
     .field-wrap label{
           display:block; font-size:10px; color:var(--dim); margin-bottom:4px; font-weight:500;
         }
@@ -102,7 +104,32 @@
                     .btn-apply:hover{ filter:brightness(1.1); }
             .btn-apply:disabled{ background:var(--ink); color:var(--dim); box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light); cursor:not-allowed; opacity: 0.7; }
 
-        .segment-control {
+                    .toggle-wrap {
+                      display:flex; align-items:center; justify-content:space-between;
+                      width:100%; margin-top:8px; padding: 6px 12px;
+                      background:var(--ink); border-radius:12px;
+                      box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light);
+                    }
+                    .toggle-label {
+                      font-size:9px; color:var(--text); font-weight:700; text-transform:uppercase; letter-spacing:0.05em;
+                    }
+                    .toggle {
+                      position:relative; width:34px; height:18px;
+                      background:var(--panel); border-radius:10px;
+                      box-shadow: inset 2px 2px 4px var(--shadow-dark), inset -2px -2px 4px var(--shadow-light);
+                      cursor:pointer;
+                    }
+                    .toggle::after {
+                      content:''; position:absolute; top:2px; left:2px;
+                      width:14px; height:14px; border-radius:50%;
+                      background:var(--dim); transition:all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+                      box-shadow: 2px 2px 4px var(--shadow-dark), -2px -2px 4px var(--shadow-light);
+                    }
+                    .toggle.active::after {
+                      transform:translateX(16px); background:var(--ok);
+                    }
+
+                    .segment-control {
                           display:flex; width:100%; background:var(--ink); border-radius:14px; padding:3px; gap:2px;
                           box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light);
                         }
@@ -223,9 +250,12 @@
       <div class="phone">
         <div class="notch"></div>
         <div class="screen">
-          <div class="settings" id="mainSettings" style="padding-top:12px;">
+          <div class="settings" id="mainSettings" style="padding-top:28px;">
+                                      <div style="width:100%; display:flex; justify-content:flex-end; margin-bottom:-10px; z-index:10; padding-right:8px;">
+                                        <svg id="configBtn" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px; height:14px; cursor:pointer; transition:opacity 0.2s ease; opacity:0.7;"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                                      </div>
           
-                  <div style="width: 100px; height: 200px; background: var(--ink); border-radius: 24px; border: none; margin: 0 auto; overflow: hidden; position: relative; display: flex; justify-content: center; align-items: center; box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);">
+                                      <div style="width: 100px; height: 200px; background: var(--ink); border-radius: 24px; border: none; margin: 0 auto; overflow: hidden; position: relative; display: flex; justify-content: center; align-items: center; box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);">
                                       <iframe id="miniFrame" style="width:100%; height:100%; border:none; display:none;" sandbox="allow-scripts allow-same-origin"></iframe>
                     <video id="miniVideo" style="width:100%; height:100%; object-fit:cover; display:none;" autoplay loop muted playsinline></video>
                     <span id="miniLabel" style="font-size:9px; color:#555; font-weight:700;">PREVIEW</span>
@@ -252,18 +282,62 @@
           <button class="btn btn-save" id="saveBtn">Save</button>
                     <button class="btn btn-apply" id="applyBtn" disabled>Apply as Wallpaper</button>
                                         <div style="display:flex; gap:8px; width:100%; margin-top:4px;">
-                                                                                                                          <button class="btn" id="historyBtn" style="flex:1;">HISTORY</button>
-                                                                                                                                                                                                                                                    <div style="display:flex; align-items:center; background:var(--ink); border-radius:12px; padding:0 8px; flex:1; box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light);">
-                                                                                                                                                                                                                                                      <button id="zoomBtn" style="background:none; border:none; color:var(--dim); font-size:10px; font-weight:600; cursor:pointer; text-transform:uppercase; outline:none; flex:1; text-align:left; transition:color 0.2s ease; padding:0; margin:0;">ZOOM:</button>
-                                                                                                                                                                                                                                                      <input type="text" inputmode="decimal" id="zoomInput" value="1" style="width:30px; height:28px; background:transparent !important; border:none; color:var(--text); font-size:10px; font-weight:600; text-align:right; outline:none !important; box-shadow:none !important; padding:0; cursor:text;">
-                                                                                                                                                                                                                                                      <span style="color:var(--dim); font-size:10px; font-weight:600; margin-left:2px;">x</span>
-                                                                                                                                                                                                                                                    </div>
-                                                                                                                        </div>
+                                                                                  <button class="btn" id="historyBtn" style="flex:1;">HISTORY</button>
+                                                                                  <div style="display:flex; align-items:center; background:var(--ink); border-radius:12px; padding:0 8px; flex:1; box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light);">
+                                                                                    <button id="zoomBtn" style="background:none; border:none; color:var(--dim); font-size:10px; font-weight:600; cursor:pointer; text-transform:uppercase; outline:none; flex:1; text-align:left; transition:color 0.2s ease; padding:0; margin:0;">ZOOM:</button>
+                                                                                    <input type="text" inputmode="decimal" id="zoomInput" value="1" style="width:30px; height:28px; background:transparent !important; border:none; color:var(--text); font-size:10px; font-weight:600; text-align:right; outline:none !important; box-shadow:none !important; padding:0; cursor:text;">
+                                                                                    <span style="color:var(--dim); font-size:10px; font-weight:600; margin-left:2px;">x</span>
+                                                                                  </div>
                                                                                 </div>
-                                        <div class="status-row" id="statusRow"></div>
-                  </div>
+                                                                                <div class="status-row" id="statusRow"></div>
+                                                          </div>
+
+                                                          <div id="configView" style="display:none; flex-direction:column; background:var(--ink); height:100%; padding:16px; overflow-y:auto;">
+                                                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                                                              <h2 style="font-size:12px; color:var(--text); font-weight:700;">SETTINGS</h2>
+                                                              <button id="configBackBtn" style="background:transparent; border:none; color:var(--accent); font-size:10px; cursor:pointer; font-weight:700;">BACK</button>
+                                                            </div>
+                                                            <div style="display:flex; flex-direction:column; gap:8px;">
+                                                              <div class="toggle-wrap" style="margin-top:0;">
+                                                                <span class="toggle-label">Native Keyboard Overlay</span>
+                                                                <div class="toggle" id="kbdToggle"></div>
+                                                              </div>
+                                                              <div style="display:flex; gap:8px; width:100%;">
+                                                                <div class="field-wrap" style="flex:1;">
+                                                                  <label style="color:var(--text); font-size:9px; font-weight:700; text-transform:uppercase;">Framerate</label>
+                                                                  <select id="fpsSelect">
+                                                                    <option>60 FPS</option>
+                                                                    <option>30 FPS</option>
+                                                                    <option>Uncapped</option>
+                                                                  </select>
+                                                                </div>
+                                                                <div class="field-wrap" style="flex:1;">
+                                                                  <label style="color:var(--text); font-size:9px; font-weight:700; text-transform:uppercase;">Scale Mode</label>
+                                                                  <select id="scaleSelect">
+                                                                    <option>Center Crop</option>
+                                                                    <option>Fit</option>
+                                                                    <option>Stretch</option>
+                                                                  </select>
+                                                                </div>
+                                                              </div>
+                                                              <div class="toggle-wrap" style="margin-top:0;">
+                                                                <span class="toggle-label">Pause on Obscured</span>
+                                                                <div class="toggle active" id="obsToggle"></div>
+                                                              </div>
+                                                              <div class="toggle-wrap" style="margin-top:0;">
+                                                                <span class="toggle-label">Low Battery Failsafe</span>
+                                                                <div class="toggle active" id="batToggle"></div>
+                                                              </div>
+                                                              <div class="toggle-wrap" style="margin-top:0;">
+                                                                <span class="toggle-label">Gyroscope Tilt</span>
+                                                                <div class="toggle" id="gyroToggle"></div>
+                                                              </div>
+                                                              <button class="btn" id="purgeBtn" style="margin-top:8px; color:var(--dim);">Clear Asset Cache</button>
+                                                              <div class="status-row" id="configStatusRow" style="margin-top:4px;"></div>
+                                                            </div>
+                                                          </div>
         
-                  <div id="historyView" style="display:none; flex-direction:column; background:var(--ink); height:100%; padding:16px;">
+                                                          <div id="historyView" style="display:none; flex-direction:column; background:var(--ink); height:100%; padding:16px;">
                                       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
                                         <h2 style="font-size:12px; color:var(--text); font-weight:700;">HISTORY</h2>
                                         <button id="backBtn" style="background:transparent; border:none; color:var(--accent); font-size:10px; cursor:pointer; font-weight:700;">BACK</button>
@@ -329,13 +403,20 @@
       </div>
     </div>
     <div class="row">
-      <div class="tag">!</div>
-      <div>
-        <strong>Browser limits</strong>
-        <p>This is an approximation — real device views allow broader permissions that a sandboxed frame here cannot.</p>
-      </div>
-    </div>
-    <div class="swap">
+          <div class="tag">!</div>
+          <div>
+            <strong>Browser limits</strong>
+            <p>This is an approximation — real device views allow broader permissions that a sandboxed frame here cannot.</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="tag">4</div>
+          <div>
+            <strong>Keyboard Hack</strong>
+            <p>If toggled, the service intercepts touches to launch a transparent <code>Activity</code>, stealing window focus to force the system keyboard to appear over the wallpaper.</p>
+          </div>
+        </div>
+        <div class="swap">
       <button id="demoBtn">Try a sample scene</button>
     </div>
   </div>
@@ -362,14 +443,43 @@
     const fileInput  = document.getElementById('fileInput');
         const fileNameDisplay = document.getElementById('fileNameDisplay');
         const mainSettings = document.getElementById('mainSettings');
-        const historyView = document.getElementById('historyView');
-        const historyBtn = document.getElementById('historyBtn');
+                const historyView = document.getElementById('historyView');
+                const historyBtn = document.getElementById('historyBtn');
+                const configBtn = document.getElementById('configBtn');
+                const configView = document.getElementById('configView');
+                const configBackBtn = document.getElementById('configBackBtn');
                         const zoomBtn = document.getElementById('zoomBtn');
                         const zoomInput = document.getElementById('zoomInput');
-                        const backBtn = document.getElementById('backBtn');
-                const historyGrid = document.getElementById('historyGrid');
+                                                const backBtn = document.getElementById('backBtn');
+                                        const historyGrid = document.getElementById('historyGrid');
+                                        const kbdToggle = document.getElementById('kbdToggle');
+                                        const obsToggle = document.getElementById('obsToggle');
+                                        const batToggle = document.getElementById('batToggle');
+                                        const gyroToggle = document.getElementById('gyroToggle');
+                                        const purgeBtn = document.getElementById('purgeBtn');
 
-                let savedUrl = '';
+                                        [kbdToggle, obsToggle, batToggle, gyroToggle].forEach(t => {
+                                          t.addEventListener('click', () => t.classList.toggle('active'));
+                                        });
+
+                                        purgeBtn.addEventListener('click', () => {
+                                                          const configStatus = document.getElementById('configStatusRow');
+                                                          configStatus.textContent = 'Cache Purged Successfully';
+                                                          configStatus.className = 'status-row ok';
+                                                          setTimeout(() => { if (configStatus.textContent === 'Cache Purged Successfully') configStatus.textContent = ''; }, 2500);
+                                                        });
+
+                                                        configBtn.addEventListener('click', () => {
+                                                          mainSettings.style.display = 'none';
+                                                          configView.style.display = 'flex';
+                                                        });
+                
+                                                        configBackBtn.addEventListener('click', () => {
+                                                          configView.style.display = 'none';
+                                                          mainSettings.style.display = 'flex';
+                                                        });
+
+                                        let savedUrl = '';
                                 let currentZoom = 1;
                                 const zoomLevels = [0.5, 0.75, 1, 1.25, 1.5, 2];
 
