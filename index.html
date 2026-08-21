@@ -348,9 +348,16 @@
                                                                                                                               <div class="toggle" id="lockToggle"></div>
                                                                                                                             </div>
                                                                                                                             <div class="toggle-wrap" style="margin-top:0;">
-                                                                                                                              <span class="toggle-label">Touch Pass-through</span>
-                                                                                                                              <div class="toggle" id="touchToggle"></div>
-                                                                                                                            </div>
+                                                                                                                                                                                            <span class="toggle-label">Touch Pass-through</span>
+                                                                                                                                                                                            <div class="toggle" id="touchToggle"></div>
+                                                                                                                                                                                          </div>
+                                                                                                                                                                                          <div id="touchSubmenu" style="display:none; flex-direction:column; padding:10px 12px; background:var(--field); border-radius:12px; margin-top:2px;">
+                                                                                                                                                                                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                                                                                                                                                                                              <span style="font-size:9px; color:var(--text); font-weight:700; text-transform:uppercase;">Overlay Button Size</span>
+                                                                                                                                                                                              <span id="btnSizeVal" style="font-size:9px; color:var(--dim); font-weight:700;">32px</span>
+                                                                                                                                                                                            </div>
+                                                                                                                                                                                            <input type="range" id="btnSizeSlider" min="20" max="80" value="32" style="width:100%; height:4px; background:var(--hair); border-radius:2px; outline:none; -webkit-appearance:none; appearance:none;">
+                                                                                                                                                                                          </div>
                                                                                                                             <button class="btn" id="purgeBtn" style="margin-top:8px; color:var(--dim);">Clear Asset Cache</button>
                                                               <div class="status-row" id="configStatusRow" style="margin-top:4px;"></div>
                                                             </div>
@@ -480,18 +487,45 @@
                                         const batToggle = document.getElementById('batToggle');
                                         const gyroToggle = document.getElementById('gyroToggle');
                                                                                 const lockToggle = document.getElementById('lockToggle');
-                                                                                const touchToggle = document.getElementById('touchToggle');
-                                                                                const interactBtn = document.getElementById('interactBtn');
-                                                                                const purgeBtn = document.getElementById('purgeBtn');
+                                                                                                                        const touchToggle = document.getElementById('touchToggle');
+                                                                                                                        const touchSubmenu = document.getElementById('touchSubmenu');
+                                                                                                                        const btnSizeSlider = document.getElementById('btnSizeSlider');
+                                                                                                                        const btnSizeVal = document.getElementById('btnSizeVal');
+                                                                                                                        const interactBtn = document.getElementById('interactBtn');
+                                                                                                                        const purgeBtn = document.getElementById('purgeBtn');
 
-                                                                                [kbdToggle, obsToggle, batToggle, gyroToggle, lockToggle, touchToggle].forEach(t => {
-                                                                                  t.addEventListener('click', () => {
-                                                                                    t.classList.toggle('active');
-                                                                                    if (t === touchToggle) {
-                                                                                      interactBtn.style.display = t.classList.contains('active') ? 'flex' : 'none';
-                                                                                    }
-                                                                                  });
-                                                                                });
+                                                                                function updateInteraction() {
+                                                                                                                          const passThroughOn = touchToggle.classList.contains('active');
+                                                                                                                          const btnActive = interactBtn.dataset.active === 'true';
+                                                                                                                          const allowInteract = !passThroughOn || btnActive;
+                                                                                                                          frame.style.pointerEvents = allowInteract ? 'auto' : 'none';
+                                                                                                                          wallpaperVideo.style.pointerEvents = allowInteract ? 'auto' : 'none';
+                                                                                                                        }
+
+                                                                                                                        [kbdToggle, obsToggle, batToggle, gyroToggle, lockToggle, touchToggle].forEach(t => {
+                                                                                                                          t.addEventListener('click', () => {
+                                                                                                                            t.classList.toggle('active');
+                                                                                                                            if (t === touchToggle) {
+                                                                                                                              const isActive = t.classList.contains('active');
+                                                                                                                              interactBtn.style.display = isActive ? 'flex' : 'none';
+                                                                                                                              touchSubmenu.style.display = isActive ? 'flex' : 'none';
+                                                                                                                              updateInteraction();
+                                                                                                                            }
+                                                                                                                          });
+                                                                                                                        });
+
+                                                                                                                        btnSizeSlider.addEventListener('input', (e) => {
+                                                                                                                          const size = e.target.value;
+                                                                                                                          btnSizeVal.textContent = size + 'px';
+                                                                                                                          interactBtn.style.width = size + 'px';
+                                                                                                                          interactBtn.style.height = size + 'px';
+                                                                                                                          interactBtn.style.borderRadius = (size / 2) + 'px';
+                                          
+                                                                                                                          const svg = interactBtn.querySelector('svg');
+                                                                                                                          const iconSize = Math.max(12, size * 0.5);
+                                                                                                                          svg.style.width = iconSize + 'px';
+                                                                                                                          svg.style.height = iconSize + 'px';
+                                                                                                                        });
 
                                         purgeBtn.addEventListener('click', () => {
                                                           const configStatus = document.getElementById('configStatusRow');
@@ -850,15 +884,21 @@
       }
     });
 
-    interactBtn.addEventListener('click', (e) => {
-      // Only toggle if they didn't just drag it
-      if (Math.abs(e.clientX - dragStartX) > 5 || Math.abs(e.clientY - dragStartY) > 5) return;
+    interactBtn.dataset.active = 'false';
+      interactBtn.addEventListener('click', (e) => {
+        // Only toggle if they didn't just drag it
+        if (Math.abs(e.clientX - dragStartX) > 5 || Math.abs(e.clientY - dragStartY) > 5) return;
     
-      const isActive = interactBtn.style.backgroundColor === 'rgba(17, 17, 17, 0.4)';
-      interactBtn.style.backgroundColor = isActive ? 'rgba(255,255,255,0.3)' : 'rgba(17, 17, 17, 0.4)';
-      interactBtn.style.borderColor = isActive ? 'rgba(255,255,255,0.2)' : 'rgba(17, 17, 17, 0.6)';
-      interactBtn.querySelector('svg').style.color = isActive ? '#111' : '#fff';
-    });
+        const isActive = interactBtn.dataset.active === 'true';
+        const newState = !isActive;
+        interactBtn.dataset.active = newState.toString();
+    
+        interactBtn.style.backgroundColor = newState ? 'rgba(17, 17, 17, 0.4)' : 'rgba(255,255,255,0.3)';
+        interactBtn.style.borderColor = newState ? 'rgba(17, 17, 17, 0.6)' : 'rgba(255,255,255,0.2)';
+        interactBtn.querySelector('svg').style.color = newState ? '#fff' : '#111';
+    
+        updateInteraction();
+      });
 
     function updateClock(){
       const now = new Date();
