@@ -6,17 +6,17 @@
 <title>Web Wallpaper — Demo</title>
 <style>
   :root{
-            --ink:#0a0a0a;
-            --panel:#000000;
-            --field:#222222;
-            --hair:#555555;
-            --text:#E7E2B4;
-          --dim:#9e9c7a;
-          --accent:#EC8A16;
-                    --accent-dim:#a6610f;
-                          --ok:#EC8A16;
-                        }
-          *{box-sizing:border-box; margin:0; padding:0;}
+              --ink: #f4f4f5;
+              --panel: #ffffff;
+              --field: #e4e4e7;
+              --hair: #d4d4d8;
+              --text: #27272a;
+            --dim: #71717a;
+            --accent:#111111;
+                      --accent-dim:#333333;
+                            --ok:#111111;
+                          }
+            *{box-sizing:border-box; margin:0; padding:0;}
       html,body{
         min-height:100%;
         background:var(--panel);
@@ -243,8 +243,8 @@
         <div class="screen">
           <div class="settings" id="mainSettings" style="padding-top:28px;">
                                       <div style="width:100%; display:flex; justify-content:flex-end; margin-bottom:-10px; z-index:10; padding-right:8px;">
-                                        <svg id="configBtn" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px; height:14px; cursor:pointer; transition:opacity 0.2s ease; opacity:0.7;"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-                                      </div>
+                                                                              <svg id="configBtn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px; height:14px; cursor:pointer; transition:opacity 0.2s ease; opacity:0.7; color:var(--text);"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                                                                            </div>
           
                                       <div style="width: 100px; height: 200px; background: var(--field); border-radius: 24px; border: none; margin: 0 auto; overflow: hidden; position: relative;">
                                                           <iframe id="miniFrame" style="width:100%; height:100%; border:none; display:none; position:absolute; top:0; left:0; transform-origin:top left;" sandbox="allow-scripts allow-same-origin"></iframe>
@@ -309,10 +309,10 @@
                                                               <button id="configBackBtn" style="background:transparent; border:none; color:var(--accent); font-size:10px; cursor:pointer; font-weight:700;">BACK</button>
                                                             </div>
                                                             <div style="display:flex; flex-direction:column; gap:8px;">
-                                                              <div class="toggle-wrap" style="margin-top:0;">
-                                                                <span class="toggle-label">Native Keyboard Overlay</span>
-                                                                <div class="toggle" id="kbdToggle"></div>
-                                                              </div>
+                                                                                                                          <div class="toggle-wrap" style="margin-top:0;">
+                                                                                                                            <span class="toggle-label">Native Keyboard Overlay</span>
+                                                                                                                            <div class="toggle" id="kbdToggle"></div>
+                                                                                                                          </div>
                                                               <div style="display:flex; gap:8px; width:100%;">
                                                                 <div class="field-wrap" style="flex:1;">
                                                                   <label style="color:var(--text); font-size:9px; font-weight:700; text-transform:uppercase;">Framerate</label>
@@ -464,15 +464,15 @@
                         const zoomInput = document.getElementById('zoomInput');
                                                 const backBtn = document.getElementById('backBtn');
                                         const historyGrid = document.getElementById('historyGrid');
-                                        const kbdToggle = document.getElementById('kbdToggle');
-                                        const obsToggle = document.getElementById('obsToggle');
+                                                                                const kbdToggle = document.getElementById('kbdToggle');
+                                                                                const obsToggle = document.getElementById('obsToggle');
                                         const batToggle = document.getElementById('batToggle');
                                         const gyroToggle = document.getElementById('gyroToggle');
                                         const purgeBtn = document.getElementById('purgeBtn');
 
                                         [kbdToggle, obsToggle, batToggle, gyroToggle].forEach(t => {
-                                          t.addEventListener('click', () => t.classList.toggle('active'));
-                                        });
+                                                                                  t.addEventListener('click', () => t.classList.toggle('active'));
+                                                                                });
 
                                         purgeBtn.addEventListener('click', () => {
                                                           const configStatus = document.getElementById('configStatusRow');
