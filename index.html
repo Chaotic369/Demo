@@ -784,10 +784,16 @@
                                                                 }
 
                                 const zoomPopup = document.getElementById('zoomPopup');
-                                                                zoomBtn.addEventListener('click', (e) => {
-                                                                  e.stopPropagation();
-                                                                  zoomPopup.style.display = zoomPopup.style.display === 'none' ? 'flex' : 'none';
-                                                                });
+                                                                                                zoomBtn.addEventListener('click', (e) => {
+                                                                                                  e.stopPropagation();
+                                                                                                  zoomPopup.style.display = zoomPopup.style.display === 'none' ? 'flex' : 'none';
+                                                                                                });
+
+                                                                                                document.addEventListener('click', (e) => {
+                                                                                                  if (zoomPopup && zoomPopup.style.display === 'flex' && !zoomPopup.contains(e.target) && e.target !== zoomBtn) {
+                                                                                                    zoomPopup.style.display = 'none';
+                                                                                                  }
+                                                                                                });
 
                                                                 document.querySelectorAll('.zoom-preset').forEach(btn => {
                                                                   btn.addEventListener('click', (e) => {
