@@ -964,38 +964,42 @@
             const target = e.target.getAttribute('data-val');
       
                         if ((target === 'Home Screen' || target === 'Both') && frame && wallpaperVideo) {
-                          frame.style.display = 'none';
-                          wallpaperVideo.style.display = 'none';
-                          frame.src = '';
-                          wallpaperVideo.src = '';
+                                                  frame.style.display = 'none';
+                                                  wallpaperVideo.style.display = 'none';
+                                                  frame.src = '';
+                                                  wallpaperVideo.src = '';
         
-                          if (savedType === 'web' || savedType === 'html') {
-                                frame.src = savedUrl;
-                                frame.style.display = 'block';
-                              } else {
-                                wallpaperVideo.src = savedUrl;
-                                wallpaperVideo.style.display = 'block';
-                              }
-                          if (emptyMsg) emptyMsg.style.display = 'none';
-                        }
+                                                  if (savedType === 'web' || savedType === 'html') {
+                                                        frame.src = savedUrl;
+                                                        frame.style.display = 'block';
+                                                      } else {
+                                                        wallpaperVideo.src = savedUrl;
+                                                        wallpaperVideo.style.display = 'block';
+                                                      }
+                                                  if (emptyMsg) emptyMsg.style.display = 'none';
+                                                }
 
-                        if ((target === 'Lock Screen' || target === 'Both') && lockFrame && lockVideo) {
-                          lockFrame.style.display = 'none';
-                          lockVideo.style.display = 'none';
-                          lockFrame.src = '';
-                          lockVideo.src = '';
+                                                if ((target === 'Lock Screen' || target === 'Both') && lockFrame && lockVideo) {
+                                                  lockFrame.style.display = 'none';
+                                                  lockVideo.style.display = 'none';
+                                                  lockFrame.src = '';
+                                                  lockVideo.src = '';
         
-                          if (savedType === 'web' || savedType === 'html') {
-                                lockFrame.src = savedUrl;
-                                lockFrame.style.display = 'block';
-                              } else {
-                                lockVideo.src = savedUrl;
-                                lockVideo.style.display = 'block';
-                              }
-                          if (lockEmptyMsg) lockEmptyMsg.style.display = 'none';
-                        }
+                                                  if (savedType === 'web' || savedType === 'html') {
+                                                        lockFrame.src = savedUrl;
+                                                        lockFrame.style.display = 'block';
+                                                      } else {
+                                                        lockVideo.src = savedUrl;
+                                                        lockVideo.style.display = 'block';
+                                                      }
+                                                  if (lockEmptyMsg) lockEmptyMsg.style.display = 'none';
+                                                }
 
-                        statusRow.textContent = 'Applied';
+                                                [frame, wallpaperVideo, lockFrame, lockVideo].forEach(el => {
+                                                  applyScaleModeToEl(el, scaleSelect.value);
+                                                });
+
+                                                statusRow.textContent = 'Applied';
                                                 statusRow.className = 'status-row ok';
                                                 setTimeout(() => { if (statusRow.textContent === 'Applied') statusRow.textContent = ''; }, 3000);
                                   });
