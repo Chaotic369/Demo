@@ -102,8 +102,19 @@
                                                                                                                                                   transition:all .2s ease;
                                                                                                                                                 }
                                         input[type=text]::placeholder{ color:var(--dim); }
-                                                    input[type=text]:focus, select:focus{ outline:none !important; box-shadow:none !important; background:var(--panel); }
-                                    select{ cursor:pointer; outline:none !important; }
+                                                                            input[type=text]:focus, select:focus{ outline:none !important; box-shadow:none !important; background:var(--panel); }
+                                                                            input:-webkit-autofill,
+                                                                            input:-webkit-autofill:hover, 
+                                                                            input:-webkit-autofill:focus, 
+                                                                            input:-webkit-autofill:active {
+                                                                                -webkit-box-shadow: 0 0 0 30px var(--field) inset !important;
+                                                                                -webkit-text-fill-color: var(--text) !important;
+                                                                                transition: background-color 5000s ease-in-out 0s;
+                                                                            }
+                                                                            input:focus:-webkit-autofill {
+                                                                                -webkit-box-shadow: 0 0 0 30px var(--panel) inset !important;
+                                                                            }
+                                                                            select{ cursor:pointer; outline:none !important; }
 
                     .btn{
                                                                                                                                               width:100%; height:24px; border-radius:8px; border:none; cursor:pointer;
