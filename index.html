@@ -875,37 +875,37 @@
     let currentType = 'web';
 
     btnTypeWeb.addEventListener('click', () => {
-          currentType = 'web';
-          btnTypeWeb.classList.add('active');
-          btnTypeVideo.classList.remove('active');
-          btnTypeHtml.classList.remove('active');
-          urlWrap.style.display = 'block';
-          fileWrap.style.display = 'none';
-        });
+                      currentType = 'web';
+                      btnTypeWeb.classList.add('active');
+                      btnTypeVideo.classList.remove('active');
+                      btnTypeHtml.classList.remove('active');
+                      urlWrap.style.display = 'flex';
+                      fileWrap.style.display = 'none';
+                    });
 
-        btnTypeVideo.addEventListener('click', () => {
-          currentType = 'video';
-          btnTypeVideo.classList.add('active');
-          btnTypeWeb.classList.remove('active');
-          btnTypeHtml.classList.remove('active');
-          urlWrap.style.display = 'none';
-          fileWrap.style.display = 'block';
-          fileInput.accept = 'video/*';
-          fileInput.value = '';
-          fileNameDisplay.textContent = 'Upload Video';
-        });
+                    btnTypeVideo.addEventListener('click', () => {
+                      currentType = 'video';
+                      btnTypeVideo.classList.add('active');
+                      btnTypeWeb.classList.remove('active');
+                      btnTypeHtml.classList.remove('active');
+                      urlWrap.style.display = 'none';
+                      fileWrap.style.display = 'block';
+                      fileInput.accept = 'video/*';
+                      fileInput.value = '';
+                      fileNameDisplay.textContent = 'Upload Video';
+                    });
 
-        btnTypeHtml.addEventListener('click', () => {
-          currentType = 'html';
-          btnTypeHtml.classList.add('active');
-          btnTypeWeb.classList.remove('active');
-          btnTypeVideo.classList.remove('active');
-          urlWrap.style.display = 'none';
-          fileWrap.style.display = 'block';
-          fileInput.accept = '.html,text/html';
-          fileInput.value = '';
-          fileNameDisplay.textContent = 'Upload HTML';
-        });
+                    btnTypeHtml.addEventListener('click', () => {
+                      currentType = 'html';
+                      btnTypeHtml.classList.add('active');
+                      btnTypeWeb.classList.remove('active');
+                      btnTypeVideo.classList.remove('active');
+                      urlWrap.style.display = 'none';
+                      fileWrap.style.display = 'block';
+                      fileInput.accept = '.html,text/html';
+                      fileInput.value = '';
+                      fileNameDisplay.textContent = 'Upload HTML';
+                    });
 
         fileInput.addEventListener('change', () => {
                     if (fileInput.files.length > 0) {
