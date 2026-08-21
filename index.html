@@ -1033,12 +1033,13 @@
                           muteIcon.innerHTML = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line>';
                           muteBtn.style.display = 'flex';
                         } else {
-                          miniVideo.src = savedUrl;
-                          miniVideo.style.display = 'block';
-                          miniVideo.muted = true;
-                          muteIcon.innerHTML = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line>';
-                          muteBtn.style.display = 'flex';
-                        }
+                                                  miniVideo.src = savedUrl;
+                                                  miniVideo.style.display = 'block';
+                                                  miniVideo.muted = true;
+                                                  miniVideo.loop = true;
+                                                  muteIcon.innerHTML = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line>';
+                                                  muteBtn.style.display = 'flex';
+                                                }
 
                     applyScaleModeToEl(miniFrame, scaleSelect.value);
                     applyScaleModeToEl(miniVideo, scaleSelect.value);
@@ -1091,12 +1092,13 @@
                                                   wallpaperVideo.src = '';
         
                                                   if (savedType === 'web' || savedType === 'html') {
-                                                        frame.src = savedUrl;
-                                                        frame.style.display = 'block';
-                                                      } else {
-                                                        wallpaperVideo.src = savedUrl;
-                                                        wallpaperVideo.style.display = 'block';
-                                                      }
+                                                                                                          frame.src = savedUrl;
+                                                                                                          frame.style.display = 'block';
+                                                                                                        } else {
+                                                                                                          wallpaperVideo.src = savedUrl;
+                                                                                                          wallpaperVideo.style.display = 'block';
+                                                                                                          wallpaperVideo.loop = true;
+                                                                                                        }
                                                   if (emptyMsg) emptyMsg.style.display = 'none';
                                                 }
 
@@ -1107,12 +1109,13 @@
                                                   lockVideo.src = '';
         
                                                   if (savedType === 'web' || savedType === 'html') {
-                                                        lockFrame.src = savedUrl;
-                                                        lockFrame.style.display = 'block';
-                                                      } else {
-                                                        lockVideo.src = savedUrl;
-                                                        lockVideo.style.display = 'block';
-                                                      }
+                                                                                                          lockFrame.src = savedUrl;
+                                                                                                          lockFrame.style.display = 'block';
+                                                                                                        } else {
+                                                                                                          lockVideo.src = savedUrl;
+                                                                                                          lockVideo.style.display = 'block';
+                                                                                                          lockVideo.loop = true;
+                                                                                                        }
                                                   if (lockEmptyMsg) lockEmptyMsg.style.display = 'none';
                                                 }
 
@@ -1176,12 +1179,13 @@
                                       muteIcon.innerHTML = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line>';
                                       muteBtn.style.display = 'flex';
                                     } else {
-                                      miniVideo.src = savedUrl;
-                                      miniVideo.style.display = 'block';
-                                      miniVideo.muted = true;
-                                      muteIcon.innerHTML = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line>';
-                                      muteBtn.style.display = 'flex';
-                                    }
+                                                                          miniVideo.src = savedUrl;
+                                                                          miniVideo.style.display = 'block';
+                                                                          miniVideo.muted = true;
+                                                                          miniVideo.loop = true;
+                                                                          muteIcon.innerHTML = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line>';
+                                                                          muteBtn.style.display = 'flex';
+                                                                        }
                   applyScaleModeToEl(miniFrame, scaleSelect.value);
                                 applyScaleModeToEl(miniVideo, scaleSelect.value);
     
