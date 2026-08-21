@@ -278,8 +278,7 @@
                                                               </label>
                                                             </div>
           
-          <button class="btn btn-save" id="saveBtn">Save</button>
-                                        <div style="position:relative; width:100%;">
+          <div style="position:relative; width:100%;">
                                                                                   <button class="btn btn-apply" id="applyBtn" disabled style="background:var(--panel);">Apply</button>
                                                                                   <div id="applyPopup" style="display:none; position:absolute; bottom:115%; left:0; width:100%; background:var(--ink); padding:8px; border-radius:12px; flex-direction:column; gap:4px; box-shadow:0 10px 20px rgba(0,0,0,0.5); z-index:20; border:none;">
                                                                                     <button class="btn apply-opt" style="background:var(--field);" data-val="Home Screen">Home Screen</button>
@@ -496,8 +495,7 @@
 
 <script>
   const urlInput   = document.getElementById('urlInput');
-  const saveBtn    = document.getElementById('saveBtn');
-  const applyBtn   = document.getElementById('applyBtn');
+    const applyBtn   = document.getElementById('applyBtn');
   const statusRow  = document.getElementById('statusRow');
   const frame      = document.getElementById('wallpaperFrame');
   const emptyMsg   = document.getElementById('emptyMsg');
@@ -879,73 +877,81 @@
         });
 
         fileInput.addEventListener('change', () => {
-            if (fileInput.files.length > 0) {
-              fileNameDisplay.textContent = fileInput.files[0].name;
-            } else {
-              fileNameDisplay.textContent = currentType === 'html' ? 'Upload HTML' : 'Upload Video';
-            }
-          });
+                    if (fileInput.files.length > 0) {
+                      fileNameDisplay.textContent = fileInput.files[0].name;
+                      saveAndPreview();
+                    } else {
+                      fileNameDisplay.textContent = currentType === 'html' ? 'Upload HTML' : 'Upload Video';
+                    }
+                  });
 
-    saveBtn.addEventListener('click', () => {
-              if (currentType === 'web') {
-                let val = urlInput.value.trim();
-              if (!val || val === urlInput.placeholder) {
-                statusRow.textContent = 'Enter a URL first';
-                statusRow.className = 'status-row';
-                return;
-              }
-              val = val.replace(/^(https?:\/\/)+/i, 'https://');
-              if (!/^https?:\/\//i.test(val) && !val.startsWith('file:///') && !val.startsWith('blob:') && !val.startsWith('data:')) {
-                val = 'https://' + val;
-              }
-              urlInput.value = val;
-              savedUrl = val;
-            } else {
-      const file = fileInput.files[0];
-      if (!file) {
-              statusRow.textContent = `Select a ${currentType} file first`;
-              statusRow.className = 'status-row';
-              return;
-            }
-      // Do not revoke object URL if we want to keep it in history
-                  savedUrl = URL.createObjectURL(file);
-                }
+            function saveAndPreview() {
+                      if (currentType === 'web') {
+                        let val = urlInput.value.trim();
+                      if (!val || val === urlInput.placeholder) {
+                        statusRow.textContent = 'Enter a URL first';
+                        statusRow.className = 'status-row';
+                        return;
+                      }
+                      val = val.replace(/^(https?:\/\/)+/i, 'https://');
+                      if (!/^https?:\/\//i.test(val) && !val.startsWith('file:///') && !val.startsWith('blob:') && !val.startsWith('data:')) {
+                        val = 'https://' + val;
+                      }
+                      urlInput.value = val;
+                      savedUrl = val;
+                    } else {
+              const file = fileInput.files[0];
+              if (!file) {
+                      statusRow.textContent = `Select a ${currentType} file first`;
+                      statusRow.className = 'status-row';
+                      return;
+                    }
+              // Do not revoke object URL if we want to keep it in history
+                          savedUrl = URL.createObjectURL(file);
+                        }
 
-                savedType = currentType;
+                        savedType = currentType;
           
-                if (!historyList.some(item => item.url === savedUrl)) {
-                   historyList.push({ type: savedType, url: savedUrl, id: Date.now() });
-                   renderHistory();
-                }
+                        if (!historyList.some(item => item.url === savedUrl)) {
+                           historyList.push({ type: savedType, url: savedUrl, id: Date.now() });
+                           renderHistory();
+                        }
     
-                miniFrame.style.display = 'none';
-    miniVideo.style.display = 'none';
-    miniLabel.style.display = 'none';
-    miniFrame.src = '';
-    miniVideo.src = '';
+                        miniFrame.style.display = 'none';
+            miniVideo.style.display = 'none';
+            miniLabel.style.display = 'none';
+            miniFrame.src = '';
+            miniVideo.src = '';
     
-    if (savedType === 'web' || savedType === 'html') {
-                  miniFrame.src = savedUrl;
-                  miniFrame.style.display = 'block';
-                  try { miniFrame.muted = true; } catch(e) {}
-                  muteIcon.innerHTML = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line>';
-                  muteBtn.style.display = 'flex';
-                } else {
-                  miniVideo.src = savedUrl;
-                  miniVideo.style.display = 'block';
-                  miniVideo.muted = true;
-                  muteIcon.innerHTML = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line>';
-                  muteBtn.style.display = 'flex';
-                }
+            if (savedType === 'web' || savedType === 'html') {
+                          miniFrame.src = savedUrl;
+                          miniFrame.style.display = 'block';
+                          try { miniFrame.muted = true; } catch(e) {}
+                          muteIcon.innerHTML = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line>';
+                          muteBtn.style.display = 'flex';
+                        } else {
+                          miniVideo.src = savedUrl;
+                          miniVideo.style.display = 'block';
+                          miniVideo.muted = true;
+                          muteIcon.innerHTML = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line>';
+                          muteBtn.style.display = 'flex';
+                        }
 
-            applyScaleModeToEl(miniFrame, scaleSelect.value);
-            applyScaleModeToEl(miniVideo, scaleSelect.value);
+                    applyScaleModeToEl(miniFrame, scaleSelect.value);
+                    applyScaleModeToEl(miniVideo, scaleSelect.value);
 
-            statusRow.textContent = 'Saved';
-            statusRow.className = 'status-row ok';
-            applyBtn.disabled = false;
-            setTimeout(() => { if (statusRow.textContent === 'Saved') statusRow.textContent = ''; }, 3000);
-          });
+                    statusRow.textContent = 'Saved';
+                    statusRow.className = 'status-row ok';
+                    applyBtn.disabled = false;
+                    setTimeout(() => { if (statusRow.textContent === 'Saved') statusRow.textContent = ''; }, 3000);
+                  }
+
+                  urlInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      saveAndPreview();
+                    }
+                  });
 
   const applyPopup = document.getElementById('applyPopup');
 
