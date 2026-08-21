@@ -1047,15 +1047,17 @@
                   miniVideo.src = '';
         
                   if (savedType === 'web' || savedType === 'html') {
-                    miniFrame.src = savedUrl;
-                    miniFrame.style.display = 'block';
+                  miniFrame.src = savedUrl;
+                  miniFrame.style.display = 'block';
                   } else {
-                    miniVideo.src = savedUrl;
-                    miniVideo.style.display = 'block';
+                  miniVideo.src = savedUrl;
+                  miniVideo.style.display = 'block';
                   }
-        
-                  applyBtn.disabled = false;
-                  statusRow.textContent = 'Loaded from history';
+                  applyScaleModeToEl(miniFrame, scaleSelect.value);
+                                applyScaleModeToEl(miniVideo, scaleSelect.value);
+    
+                                applyBtn.disabled = false;
+                                statusRow.textContent = 'Loaded from history';
                   statusRow.className = 'status-row ok';
                   setTimeout(() => { if (statusRow.textContent === 'Loaded from history') statusRow.textContent = ''; }, 3000);
                   backBtn.click();
