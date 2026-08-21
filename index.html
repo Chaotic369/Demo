@@ -27,8 +27,9 @@
                         --accent-dim:#cccccc;
                               --ok:#ffffff;
                             }
-            *{box-sizing:border-box; margin:0; padding:0;}
-      html,body{
+            *{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color: transparent;}
+                        ::selection { background: var(--dim); color: var(--panel); }
+                  html,body{
               min-height:100%;
               background:var(--panel);
               color:var(--text);
@@ -95,12 +96,13 @@
                   -webkit-appearance: none; appearance: none;
                 }
                 input[type=text], select{
-                                                                                                                                  width:100%; height:24px; background:var(--field); border:none;
-                                                                                                                                  border-radius:8px; color:var(--text); padding:0 10px; font-size:10px; outline:none !important;
-                                                                                                                                  transition:all .2s ease;
-                                                                                                                                }
-                        input[type=text]::placeholder{ color:var(--dim); }
-                                    input[type=text]:focus, select:focus{ outline:none !important; background:var(--panel); }
+                                                                                                                                                  width:100%; height:24px; background:var(--field); border:none;
+                                                                                                                                                  border-radius:8px; color:var(--text); padding:0 10px; font-size:10px; outline:none !important;
+                                                                                                                                                  box-shadow:none !important; caret-color:var(--text);
+                                                                                                                                                  transition:all .2s ease;
+                                                                                                                                                }
+                                        input[type=text]::placeholder{ color:var(--dim); }
+                                                    input[type=text]:focus, select:focus{ outline:none !important; box-shadow:none !important; background:var(--panel); }
                                     select{ cursor:pointer; outline:none !important; }
 
                     .btn{
@@ -278,9 +280,9 @@
                                                                                                                                                           <video id="miniVideo" style="width:100%; height:100%; object-fit:cover; display:none; position:absolute; top:0; left:0; transform-origin:top left;" autoplay loop muted playsinline></video>
                                                                                                                                                           <span id="miniLabel" style="color:#aaaaaa; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); pointer-events:none; z-index:1; display:flex; align-items:center; justify-content:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px; height:20px;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></span>
                                                                                                                                                         </div>
-                                                                                                                                                        <button type="button" id="muteBtn" style="display:none; position:absolute; bottom:12px; right:-34px; width:26px; height:26px; padding:0; border:1px solid var(--hair); border-radius:50%; background:var(--panel); cursor:pointer; align-items:center; justify-content:center; z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
-                                                                                                                                                          <svg id="muteIcon" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px; height:12px;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
-                                                                                                                                                        </button>
+                                                                                                                                                        <button type="button" id="muteBtn" style="display:none; position:absolute; bottom:12px; right:-34px; width:26px; height:26px; padding:0; border:none; background:transparent; cursor:pointer; align-items:center; justify-content:center; z-index:2;">
+                                                                                                                                                                                                                                                                                                                  <svg id="muteIcon" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px; height:12px;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                                                                                                                                                                                                                                                                                                                </button>
                                                                             </div>
 
           <div class="segment-control">
