@@ -251,9 +251,12 @@
           
                                       <div style="width: 100px; height: 200px; background: var(--field); border-radius: 24px; border: none; margin: 0 auto; overflow: hidden; position: relative;">
                                                           <iframe id="miniFrame" style="width:100%; height:100%; border:none; display:none; position:absolute; top:0; left:0; transform-origin:top left;" sandbox="allow-scripts allow-same-origin"></iframe>
-                                                          <video id="miniVideo" style="width:100%; height:100%; object-fit:cover; display:none; position:absolute; top:0; left:0; transform-origin:top left;" autoplay loop muted playsinline></video>
-                                                          <span id="miniLabel" style="font-size:9px; color:#555; font-weight:700; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); pointer-events:none; z-index:1;">PREVIEW</span>
-                                                        </div>
+                                                                                                                    <video id="miniVideo" style="width:100%; height:100%; object-fit:cover; display:none; position:absolute; top:0; left:0; transform-origin:top left;" autoplay loop muted playsinline></video>
+                                                                                                                    <span id="miniLabel" style="font-size:9px; color:#555; font-weight:700; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); pointer-events:none; z-index:1;">PREVIEW</span>
+                                                                                                                    <button type="button" id="muteBtn" style="display:none; position:absolute; bottom:4px; right:4px; width:18px; height:18px; padding:0; border:none; border-radius:50%; background:rgba(0,0,0,0.55); cursor:pointer; align-items:center; justify-content:center; z-index:2;">
+                                                                                                                      <svg id="muteIcon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:10px; height:10px;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                                                                                                                    </button>
+                                                                                                                  </div>
 
           <div class="segment-control">
                                 <button class="seg-btn active" id="btnTypeWeb">Web</button>
@@ -472,6 +475,8 @@
     const miniVideo  = document.getElementById('miniVideo');
     const miniLabel  = document.getElementById('miniLabel');
     const wallpaperVideo = document.getElementById('wallpaperVideo');
+        const muteBtn = document.getElementById('muteBtn');
+        const muteIcon = document.getElementById('muteIcon');
     const urlWrap    = document.getElementById('urlWrap');
     const fileWrap   = document.getElementById('fileWrap');
     const fileInput  = document.getElementById('fileInput');
@@ -681,7 +686,17 @@
                                                                                                                                                                   previewSvg.style.height = iconSize + 'px';
                                                                                                                                                                 });
 
-                                        purgeBtn.addEventListener('click', () => {
+                                        muteBtn.addEventListener('click', (e) => {
+                                                                                  e.stopPropagation();
+                                                                                  miniVideo.muted = !miniVideo.muted;
+                                                                                  if (miniVideo.muted) {
+                                                                                    muteIcon.innerHTML = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line>';
+                                                                                  } else {
+                                                                                    muteIcon.innerHTML = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>';
+                                                                                  }
+                                                                                });
+
+                                                                                purgeBtn.addEventListener('click', () => {
                                                           const configStatus = document.getElementById('configStatusRow');
                                                           configStatus.textContent = 'Cache Purged Successfully';
                                                                                                                     configStatus.className = 'status-row ok';
@@ -861,14 +876,18 @@
     miniVideo.src = '';
     
     if (savedType === 'web' || savedType === 'html') {
-          miniFrame.src = savedUrl;
-          miniFrame.style.display = 'block';
-        } else {
-          miniVideo.src = savedUrl;
-          miniVideo.style.display = 'block';
-        }
+              miniFrame.src = savedUrl;
+              miniFrame.style.display = 'block';
+              muteBtn.style.display = 'none';
+            } else {
+              miniVideo.src = savedUrl;
+              miniVideo.style.display = 'block';
+              miniVideo.muted = true;
+              muteIcon.innerHTML = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line>';
+              muteBtn.style.display = 'flex';
+            }
 
-    statusRow.textContent = 'Saved';
+        statusRow.textContent = 'Saved';
         statusRow.className = 'status-row ok';
         applyBtn.disabled = false;
         setTimeout(() => { if (statusRow.textContent === 'Saved') statusRow.textContent = ''; }, 3000);
