@@ -684,8 +684,8 @@
                                         purgeBtn.addEventListener('click', () => {
                                                           const configStatus = document.getElementById('configStatusRow');
                                                           configStatus.textContent = 'Cache Purged Successfully';
-                                                          configStatus.className = 'status-row ok';
-                                                          setTimeout(() => { if (configStatus.textContent === 'Cache Purged Successfully') configStatus.textContent = ''; }, 2500);
+                                                                                                                    configStatus.className = 'status-row ok';
+                                                                                                                    setTimeout(() => { if (configStatus.textContent === 'Cache Purged Successfully') configStatus.textContent = ''; }, 3000);
                                                         });
 
                                                         configBtn.addEventListener('click', () => {
@@ -869,9 +869,10 @@
         }
 
     statusRow.textContent = 'Saved';
-    statusRow.className = 'status-row ok';
-    applyBtn.disabled = false;
-  });
+        statusRow.className = 'status-row ok';
+        applyBtn.disabled = false;
+        setTimeout(() => { if (statusRow.textContent === 'Saved') statusRow.textContent = ''; }, 3000);
+      });
 
   const applyPopup = document.getElementById('applyPopup');
 
@@ -925,15 +926,16 @@
                         }
 
                         statusRow.textContent = 'Applied';
-                        statusRow.className = 'status-row ok';
-          });
-        });
+                                                statusRow.className = 'status-row ok';
+                                                setTimeout(() => { if (statusRow.textContent === 'Applied') statusRow.textContent = ''; }, 3000);
+                                  });
+                                });
 
-    document.addEventListener('click', (e) => {
-      if (applyPopup && applyPopup.style.display === 'flex' && !applyPopup.contains(e.target)) {
-        applyPopup.style.display = 'none';
-      }
-    });
+                            document.addEventListener('click', (e) => {
+                              if (applyPopup && applyPopup.style.display === 'flex' && !applyPopup.contains(e.target)) {
+                                applyPopup.style.display = 'none';
+                              }
+                            });
 
   historyBtn.addEventListener('click', () => {
       mainSettings.style.display = 'none';
@@ -976,10 +978,11 @@
           }
         
           applyBtn.disabled = false;
-          statusRow.textContent = 'Loaded from history';
-          statusRow.className = 'status-row ok';
-          backBtn.click();
-        };
+                    statusRow.textContent = 'Loaded from history';
+                    statusRow.className = 'status-row ok';
+                    setTimeout(() => { if (statusRow.textContent === 'Loaded from history') statusRow.textContent = ''; }, 3000);
+                    backBtn.click();
+                  };
       
         if (item.type === 'web' || item.type === 'html') {
           const ifr = document.createElement('iframe');
@@ -1052,8 +1055,9 @@
     miniFrame.srcdoc = sampleDoc;
     
             statusRow.textContent = 'Applied sample scene';
-        statusRow.className = 'status-row ok';
-      });
+                    statusRow.className = 'status-row ok';
+                    setTimeout(() => { if (statusRow.textContent === 'Applied sample scene') statusRow.textContent = ''; }, 3000);
+                  });
 
   let isDragging = false;
       let dragStartX, dragStartY, initialBtnX, initialBtnY;
