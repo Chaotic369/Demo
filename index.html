@@ -164,9 +164,9 @@
   .status-row.ok{ color:var(--ok); }
 
   /* ---------- wallpaper preview screen ---------- */
-    .wallpaper-screen{
-      flex:1; position:relative; background:var(--ink);
-    }
+      .wallpaper-screen{
+        flex:1; position:relative; background:#000000;
+      }
     .wallpaper-screen iframe, .wallpaper-screen video{
         width:100%; height:100%; border:none; display:block; object-fit:cover;
         position:absolute; top:0; left:0; transform-origin:top left;
@@ -273,8 +273,8 @@
                                                                                                                             </div>
           
                                                 <div style="position: relative; width: 140px; margin: 0 auto; margin-bottom: auto;">
-                                                                                                                                                          <div style="width: 140px; height: 280px; background: var(--field); border-radius: 24px; border: none; overflow: hidden; position: relative; box-shadow:0 12px 32px rgba(0,0,0,0.35);">
-                                                                                                <iframe id="miniFrame" style="width:100%; height:100%; border:none; display:none; position:absolute; top:0; left:0; transform-origin:top left;" sandbox="allow-scripts allow-same-origin"></iframe>
+                                                                                                                                                                    <div style="width: 140px; height: 280px; background: #000000; border-radius: 24px; border: none; overflow: hidden; position: relative; box-shadow:0 12px 32px rgba(0,0,0,0.35);">
+                                                                                                          <iframe id="miniFrame" style="width:100%; height:100%; border:none; display:none; position:absolute; top:0; left:0; transform-origin:top left;" sandbox="allow-scripts allow-same-origin"></iframe>
                                                                                                                                                           <video id="miniVideo" style="width:100%; height:100%; object-fit:cover; display:none; position:absolute; top:0; left:0; transform-origin:top left;" autoplay loop muted playsinline></video>
                                                                                                                                                           <span id="miniLabel" style="color:#aaaaaa; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); pointer-events:none; z-index:1; display:flex; align-items:center; justify-content:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px; height:20px;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></span>
                                                                                                                                                         </div>
@@ -299,8 +299,8 @@
                                         <div id="fileWrap" style="display:none; text-align:center; padding:0; height:24px; width:100%;">
                                                                                                                                                                                                           <label style="cursor:pointer; color:var(--text); font-size:10px; display:flex; align-items:center; justify-content:center; gap:6px; font-weight:600; text-transform:uppercase; letter-spacing:0.02em; background:var(--panel); border: none; padding:0 16px; height:24px; width:100%; border-radius:8px; transition:all 0.2s ease; box-sizing:border-box;">
                                                                                                                               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px; height:14px; color:var(--accent);"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-                                                                <span id="fileNameDisplay" style="overflow:hidden; text-overflow:ellipsis; max-width:140px; white-space:nowrap;">Upload Video</span>
-                                                                <input type="file" id="fileInput" accept="video/*" style="display:none;">
+                                                                                                                                                                                              <span id="fileNameDisplay" style="overflow:hidden; text-overflow:ellipsis; max-width:140px; white-space:nowrap; color:var(--dim);">Upload Video</span>
+                                                                                                                                                                                              <input type="file" id="fileInput" accept="video/*" style="display:none;">
                                                               </label>
                                                             </div>
           
@@ -890,37 +890,41 @@
                     });
 
                     btnTypeVideo.addEventListener('click', () => {
-                      currentType = 'video';
-                      btnTypeVideo.classList.add('active');
-                      btnTypeWeb.classList.remove('active');
-                      btnTypeHtml.classList.remove('active');
-                      urlWrap.style.display = 'none';
-                      fileWrap.style.display = 'block';
-                      fileInput.accept = 'video/*';
-                      fileInput.value = '';
-                      fileNameDisplay.textContent = 'Upload Video';
-                    });
+                                          currentType = 'video';
+                                          btnTypeVideo.classList.add('active');
+                                          btnTypeWeb.classList.remove('active');
+                                          btnTypeHtml.classList.remove('active');
+                                          urlWrap.style.display = 'none';
+                                          fileWrap.style.display = 'block';
+                                          fileInput.accept = 'video/*';
+                                          fileInput.value = '';
+                                          fileNameDisplay.textContent = 'Upload Video';
+                                          fileNameDisplay.style.color = 'var(--dim)';
+                                        });
 
-                    btnTypeHtml.addEventListener('click', () => {
-                      currentType = 'html';
-                      btnTypeHtml.classList.add('active');
-                      btnTypeWeb.classList.remove('active');
-                      btnTypeVideo.classList.remove('active');
-                      urlWrap.style.display = 'none';
-                      fileWrap.style.display = 'block';
-                      fileInput.accept = '.html,text/html';
-                      fileInput.value = '';
-                      fileNameDisplay.textContent = 'Upload HTML';
-                    });
+                                        btnTypeHtml.addEventListener('click', () => {
+                                          currentType = 'html';
+                                          btnTypeHtml.classList.add('active');
+                                          btnTypeWeb.classList.remove('active');
+                                          btnTypeVideo.classList.remove('active');
+                                          urlWrap.style.display = 'none';
+                                          fileWrap.style.display = 'block';
+                                          fileInput.accept = '.html,text/html';
+                                          fileInput.value = '';
+                                          fileNameDisplay.textContent = 'Upload HTML';
+                                          fileNameDisplay.style.color = 'var(--dim)';
+                                        });
 
-        fileInput.addEventListener('change', () => {
-                    if (fileInput.files.length > 0) {
-                      fileNameDisplay.textContent = fileInput.files[0].name;
-                      saveAndPreview();
-                    } else {
-                      fileNameDisplay.textContent = currentType === 'html' ? 'Upload HTML' : 'Upload Video';
-                    }
-                  });
+                            fileInput.addEventListener('change', () => {
+                                        if (fileInput.files.length > 0) {
+                                          fileNameDisplay.textContent = fileInput.files[0].name;
+                                          fileNameDisplay.style.color = 'var(--text)';
+                                          saveAndPreview();
+                                        } else {
+                                          fileNameDisplay.textContent = currentType === 'html' ? 'Upload HTML' : 'Upload Video';
+                                          fileNameDisplay.style.color = 'var(--dim)';
+                                        }
+                                      });
 
             function saveAndPreview() {
                       if (currentType === 'web') {
