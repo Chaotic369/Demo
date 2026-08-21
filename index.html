@@ -688,8 +688,11 @@
 
                                         muteBtn.addEventListener('click', (e) => {
                                                                                   e.stopPropagation();
-                                                                                  miniVideo.muted = !miniVideo.muted;
-                                                                                  if (miniVideo.muted) {
+                                                                                  const isVideo = miniVideo.style.display === 'block';
+                                                                                  const target = isVideo ? miniVideo : miniFrame;
+                                                                                  const newMuted = !target.muted;
+                                                                                  try { target.muted = newMuted; } catch(err) {}
+                                                                                  if (newMuted) {
                                                                                     muteIcon.innerHTML = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line>';
                                                                                   } else {
                                                                                     muteIcon.innerHTML = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>';
@@ -878,7 +881,9 @@
     if (savedType === 'web' || savedType === 'html') {
               miniFrame.src = savedUrl;
               miniFrame.style.display = 'block';
-              muteBtn.style.display = 'none';
+              try { miniFrame.muted = true; } catch(e) {}
+              muteIcon.innerHTML = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line>';
+              muteBtn.style.display = 'flex';
             } else {
               miniVideo.src = savedUrl;
               miniVideo.style.display = 'block';
